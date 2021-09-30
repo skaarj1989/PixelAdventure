@@ -1,0 +1,45 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://src/UI/HUD.gd" type="Script" id=1]
+[ext_resource path="res://assets/Menu/Buttons/Restart.png" type="Texture" id=2]
+[ext_resource path="res://assets/Menu/Buttons/Next.png" type="Texture" id=3]
+[ext_resource path="res://assets/Menu/Buttons/Previous.png" type="Texture" id=4]
+
+[node name="HUD" type="MarginContainer"]
+anchor_right = 1.0
+margin_bottom = 22.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_right = 512.0
+margin_bottom = 22.0
+custom_constants/separation = 0
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Prev" type="TextureButton" parent="HBoxContainer"]
+margin_left = 449.0
+margin_right = 470.0
+margin_bottom = 22.0
+texture_normal = ExtResource( 4 )
+
+[node name="Next" type="TextureButton" parent="HBoxContainer"]
+margin_left = 470.0
+margin_right = 491.0
+margin_bottom = 22.0
+texture_normal = ExtResource( 3 )
+
+[node name="Restart" type="TextureButton" parent="HBoxContainer"]
+margin_left = 491.0
+margin_right = 512.0
+margin_bottom = 22.0
+texture_normal = ExtResource( 2 )
+
+[connection signal="pressed" from="HBoxContainer/Prev" to="." method="_on_Prev_pressed"]
+[connection signal="pressed" from="HBoxContainer/Next" to="." method="_on_Next_pressed"]
+[connection signal="pressed" from="HBoxContainer/Restart" to="." method="_on_Restart_pressed"]

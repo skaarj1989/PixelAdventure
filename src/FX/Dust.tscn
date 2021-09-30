@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://src/FX/Dust.gd" type="Script" id=1]
+
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0, 0.976744, 1 )
+colors = PoolColorArray( 1, 1, 1, 0.501961, 1, 1, 1, 0, 1, 1, 1, 0.00497977 )
+
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
+width = 128
+
+[sub_resource type="ParticlesMaterial" id=3]
+emission_shape = 2
+emission_box_extents = Vector3( 8, 1, 1 )
+flag_disable_z = true
+direction = Vector3( 0, -1, 0 )
+gravity = Vector3( 0, -98, 0 )
+initial_velocity = 10.0
+initial_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 0.3
+scale_random = 0.8
+color_ramp = SubResource( 2 )
+
+[node name="Dust" type="Particles2D"]
+show_behind_parent = true
+emitting = false
+amount = 5
+lifetime = 0.5
+one_shot = true
+speed_scale = 2.0
+explosiveness = 0.7
+randomness = 0.5
+visibility_rect = Rect2( -50, -50, 100, 100 )
+local_coords = false
+process_material = SubResource( 3 )
+script = ExtResource( 1 )

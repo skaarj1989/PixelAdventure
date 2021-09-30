@@ -1,0 +1,75 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://src/Player/MainCharacter.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/Player/States/OnGround/Idle.gd" type="Script" id=2]
+[ext_resource path="res://src/Player/States/Hit.gd" type="Script" id=3]
+[ext_resource path="res://src/Player/States/InAir/DoubleJump.gd" type="Script" id=4]
+[ext_resource path="res://src/Player/States/InAir/WallJump.gd" type="Script" id=5]
+[ext_resource path="res://src/Player/States/Appear.gd" type="Script" id=6]
+[ext_resource path="res://src/Player/Player.gd" type="Script" id=7]
+[ext_resource path="res://src/Player/States/OnGround/Run.gd" type="Script" id=8]
+[ext_resource path="res://src/StateMachine/StateMachine.gd" type="Script" id=9]
+[ext_resource path="res://src/Player/States/InAir/Fall.gd" type="Script" id=10]
+[ext_resource path="res://src/Player/States/InAir/Jump.gd" type="Script" id=11]
+
+[node name="Player" groups=[
+"player",
+] instance=ExtResource( 1 )]
+z_index = 1
+script = ExtResource( 7 )
+
+[node name="CollisionShape2D" parent="." index="0"]
+disabled = false
+
+[node name="RayCast2D" type="RayCast2D" parent="." index="1"]
+position = Vector2( -4, 4 )
+cast_to = Vector2( 4, 0 )
+
+[node name="Sprite" parent="." index="2"]
+frame = 6
+
+[node name="AnimatedSprite" parent="." index="4"]
+z_index = 1
+
+[node name="StateMachine" type="Node" parent="." index="5"]
+script = ExtResource( 9 )
+initial_state = NodePath("Idle")
+
+[node name="Appear" type="Node" parent="StateMachine" index="0"]
+script = ExtResource( 6 )
+
+[node name="Idle" type="Node" parent="StateMachine" index="1"]
+script = ExtResource( 2 )
+
+[node name="Run" type="Node" parent="StateMachine" index="2"]
+script = ExtResource( 8 )
+
+[node name="Timer" type="Timer" parent="StateMachine/Run" index="0"]
+wait_time = 0.3
+
+[node name="Jump" type="Node" parent="StateMachine" index="3"]
+script = ExtResource( 11 )
+
+[node name="Fall" type="Node" parent="StateMachine" index="4"]
+script = ExtResource( 10 )
+
+[node name="DoubleJump" type="Node" parent="StateMachine" index="5"]
+script = ExtResource( 4 )
+
+[node name="WallJump" type="Node" parent="StateMachine" index="6"]
+script = ExtResource( 5 )
+
+[node name="Hit" type="Node" parent="StateMachine" index="7"]
+script = ExtResource( 3 )
+
+[node name="Label" type="Label" parent="." index="6"]
+margin_left = -24.0
+margin_top = -32.0
+margin_right = 31.0
+margin_bottom = -18.0
+text = "State"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="timeout" from="StateMachine/Run/Timer" to="StateMachine/Run" method="_on_Timer_timeout"]
