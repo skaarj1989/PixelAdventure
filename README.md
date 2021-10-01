@@ -1,6 +1,8 @@
 # Pixel Adventure
 
-Playing with Godot
+<a href="https://skaarj1989.github.io/PixelAdventure/PixelAdventure.html">
+    <img src="screenshots/01.png" width="640"/>
+</a>
 
 ## Acknowledgments
 
