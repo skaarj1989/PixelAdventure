@@ -2,6 +2,7 @@ extends PlayerState
 
 
 func enter(_msg: Dictionary = {}) -> void:
+	player.snap = Vector2.DOWN * 8
 	player.can_jump = true
 	if player.surface_type == GameState.SURFACE_TYPE.DEFAULT:
 		player.spawn_dust()

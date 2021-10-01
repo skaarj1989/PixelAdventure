@@ -14,7 +14,6 @@ func enter(_msg: Dictionary = {}):
 
 
 func exit() -> void:
-	player.snap = Vector2.DOWN * 8
 	player.raycast.enabled = false
 	.exit()
 

@@ -23,9 +23,7 @@ func physics_update(delta: float) -> void:
 
 
 func _on_Timer_timeout() -> void:
-	match player.surface_type:
-		GameState.SURFACE_TYPE.DEFAULT:
-			player.spawn_dust()
-		GameState.SURFACE_TYPE.SAND: pass
-		GameState.SURFACE_TYPE.MUD: pass
-		GameState.SURFACE_TYPE.ICE: pass
+	if player.surface_type == GameState.SURFACE_TYPE.DEFAULT:
+		player.spawn_dust()
+	else:
+		add_child(GameState.spawn_splash(player.surface_type, Vector2(0, 16)))

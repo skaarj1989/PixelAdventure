@@ -42,7 +42,7 @@ func _on_AoE_body_entered(body) -> void:
 	target.snap = Vector2.ZERO
 
 
-func _on_AoE_body_exited(body) -> void:
+func _on_AoE_body_exited(_body) -> void:
 	target = null
 
 

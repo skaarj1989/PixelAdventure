@@ -42,7 +42,6 @@ func smash() -> void:
 			rng.randf_range(0.1, 1.0) * -last_velocity.x + 0.5,
 			rng.randf_range(-1.0, 1.0) * (last_velocity.y + 0.1) * 0.5
 		)
-		print("impulse = %s" % String(impulse))
 		piece.apply_impulse(Vector2.ZERO, impulse)
 		
 		queue_free()

@@ -70,6 +70,7 @@ func _physics_process(_delta: float) -> void:
 		velocity.y += GameState.GRAVITY * _delta
 
 	last_velocity = velocity
+	#velocity = move_and_slide(velocity, Vector2.UP, false, 4, PI / 4, true)
 	velocity = move_and_slide_with_snap(velocity, snap, Vector2.UP, false, 4, PI / 4, true)
 	if $StateMachine.state.name != "Hit":
 		check_collisions()
@@ -115,30 +116,34 @@ func check_collisions() -> void:
 				take_damage()
 				return
 			
-			match collider.get_groups():
-				["terrain"]:
-					surface_type = GameState.SURFACE_TYPE.DEFAULT
-				["sand"]:
-					surface_type = GameState.SURFACE_TYPE.SAND
-					velocity.x *= (1.0 - get_friction())
-				["mud"]:
-					surface_type = GameState.SURFACE_TYPE.MUD
-					velocity.x *= (1.0 - get_friction())
-				["ice"]:
-					surface_type = GameState.SURFACE_TYPE.ICE
-				["projectile", ..]: 
-					take_damage(collider.velocity)
-					return
-				["trap", ..]:
+			# NOTE: using 'match' instead of 'if' issued an hard to find bug!
+			# Order of groups in array returned by '.get_groups()' varies between calls
+			# hence using an open-ended array pattern: ["enemy", ..] will result in
+			# undetected collision in cases when the "enemy" group is not the first element
+			# in the array, like: ["idle_process", "enemy", "physics_process"]
+			if collider.is_in_group("terrain"):
+				surface_type = GameState.SURFACE_TYPE.DEFAULT
+			elif collider.is_in_group("sand"):
+				surface_type = GameState.SURFACE_TYPE.SAND
+				velocity.x *= (1.0 - get_friction())
+			elif collider.is_in_group("mud"):
+				surface_type = GameState.SURFACE_TYPE.MUD
+				velocity.x *= (1.0 - get_friction())
+			elif collider.is_in_group("ice"):
+				surface_type = GameState.SURFACE_TYPE.ICE
+			elif collider.is_in_group("projectile"):
+				take_damage(collider.velocity)
+				return
+			elif collider.is_in_group("trap"):
+				take_damage()
+				return
+			elif collider.is_in_group("enemy"):
+				if can_deal_damage(collider):
+					if collider.take_damage(last_velocity):
+						bounce_up(8.0)
+				else:
 					take_damage()
-					return
-				["enemy", ..]:
-					if can_deal_damage(collider):
-						if collider.take_damage(last_velocity):
-							bounce_up(8.0)
-					else:
-						take_damage()
-					return
+				return
 
 
 func get_feet_position() -> Vector2:
@@ -178,7 +183,7 @@ func take_damage(_from: Vector2 = Vector2.ZERO) -> void:
 	if _from != Vector2.ZERO:
 		velocity = _from
 	else:
-		# Stepped on enemy
+		# Stepped on an enemy
 		velocity.x *= -facing
 	
 	velocity.y = -5 * GameState.TILE_SIZE

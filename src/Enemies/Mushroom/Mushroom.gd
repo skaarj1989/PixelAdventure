@@ -51,7 +51,6 @@ func check_collisions() -> void:
 		if collider.is_in_group("player"):
 			collider.take_damage(last_velocity)
 			velocity = last_velocity # Don't stop moving on collision
-			return
 		elif collision.normal.x != 0:
 			change_state(IDLE)
 

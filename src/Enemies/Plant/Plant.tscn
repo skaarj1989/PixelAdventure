@@ -4,7 +4,7 @@
 [ext_resource path="res://assets/Enemies/Plant/spritesheet.png" type="Texture" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 10, 14 )
+extents = Vector2( 10, 16 )
 
 [sub_resource type="Animation" id=2]
 resource_name = "attack"
@@ -80,7 +80,7 @@ collision_mask = 3
 script = ExtResource( 4 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 4, 11 )
+position = Vector2( 4, 9 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]

@@ -1,5 +1,11 @@
 extends Node2D
 
+var chapters := {
+	1: { "num_levels": 18 },
+	2: { "num_levels": 20 },
+}
+
+
 onready var player_prefab := preload("res://src/Player/Player.tscn")
 onready	var fruit_prefab := preload("res://src/Items/Fruits/Fruit.tscn")
 onready var block_prefab := preload("res://src/Traps/Blocks/Block.tscn")
@@ -59,8 +65,45 @@ func _on_HUD_restart_level() -> void:
 
 
 func _on_HUD_next_level():
-	pass
+	var stats = stat_current_level()
+	var chapter_id = stats.chapter_id
+	var current_chapter = chapters[chapter_id]
+	var level_id = stats.level_id
+	if level_id == current_chapter.num_levels:
+		chapter_id += 1
+		level_id = 1
+	else:
+		level_id += 1
+		
+	if chapter_id <= chapters.size():
+		open_level(chapter_id, level_id)
 
 
 func _on_HUD_prev_level():
-	pass
+	var stats = stat_current_level()
+	var chapter_id = stats.chapter_id
+	var level_id = stats.level_id
+	if level_id == 1:
+		chapter_id -= 1
+		if chapter_id == 0:
+			return
+		var prev_chapter = chapters[chapter_id]
+		level_id = prev_chapter.num_levels
+	else:
+		level_id -= 1
+		
+	if chapter_id > 0:
+		open_level(chapter_id, level_id)
+
+
+func stat_current_level():
+	var fn = filename.get_file().get_basename().split("_")
+	return {
+		"chapter_id": fn[1].to_int(),
+		"level_id": fn[2].to_int()
+	}
+
+
+func open_level(chapter, level) -> void:
+	var str_id = "Level_%d_%0*d" % [chapter, 2, level]
+	get_tree().change_scene("res://src/Levels/%s.tscn" % str_id)

@@ -39,7 +39,7 @@ _global_script_class_icons={
 [application]
 
 config/name="PixelAdventure"
-run/main_scene="res://src/Levels/Level_1_01.tscn"
+run/main_scene="res://src/Levels/Level_2_01.tscn"
 
 [autoload]
 

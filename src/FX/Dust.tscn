@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://src/FX/Dust.gd" type="Script" id=1]
+[ext_resource path="res://assets/Other/dust_particle.png" type="Texture" id=2]
 
 [sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0, 0.976744, 1 )
@@ -36,4 +37,5 @@ randomness = 0.5
 visibility_rect = Rect2( -50, -50, 100, 100 )
 local_coords = false
 process_material = SubResource( 3 )
+texture = ExtResource( 2 )
 script = ExtResource( 1 )
