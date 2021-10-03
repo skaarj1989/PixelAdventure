@@ -1,4 +1,4 @@
-[gd_scene load_steps=149 format=2]
+[gd_scene load_steps=148 format=2]
 
 [ext_resource path="res://assets/Other/shadow.png" type="Texture" id=1]
 [ext_resource path="res://assets/Traps/Platforms/chain.png" type="Texture" id=2]
@@ -6,7 +6,6 @@
 [ext_resource path="res://assets/Items/Fruits/spritesheet.png" type="Texture" id=4]
 [ext_resource path="res://assets/Traps/Blocks/idle.png" type="Texture" id=5]
 [ext_resource path="res://src/Background/AnimatedBackground.tscn" type="PackedScene" id=6]
-[ext_resource path="res://src/UI/HUD.tscn" type="PackedScene" id=7]
 [ext_resource path="res://assets/Traps/Spikes/spikes.png" type="Texture" id=8]
 [ext_resource path="res://assets/Terrain/terrain.png" type="Texture" id=9]
 [ext_resource path="res://src/FX/ShakeCamera2D.gd" type="Script" id=10]
@@ -3851,11 +3850,6 @@ points = PoolVector2Array( 0, 8, 16, 8, 16, 16, 0, 16 )
 [node name="Level" type="Node2D"]
 script = ExtResource( 11 )
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-pause_mode = 2
-
-[node name="HUD" parent="CanvasLayer" instance=ExtResource( 7 )]
-
 [node name="AnimatedBackground" parent="." instance=ExtResource( 6 )]
 
 [node name="TileMap" type="TileMap" parent="." groups=[
@@ -3958,16 +3952,3 @@ position = Vector2( 256, 132 )
 __meta__ = {
 "_edit_lock_": true
 }
-
-[node name="Timer" type="Timer" parent="."]
-wait_time = 0.25
-one_shot = true
-autostart = true
-__meta__ = {
-"_editor_description_": "Spawn delay"
-}
-
-[connection signal="next_level" from="CanvasLayer/HUD" to="." method="_on_HUD_next_level"]
-[connection signal="prev_level" from="CanvasLayer/HUD" to="." method="_on_HUD_prev_level"]
-[connection signal="restart_level" from="CanvasLayer/HUD" to="." method="_on_HUD_restart_level"]
-[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
