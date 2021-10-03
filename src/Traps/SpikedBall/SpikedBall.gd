@@ -30,16 +30,17 @@ func _physics_process(_delta: float) -> void:
 	angular_velocity += angular_acceleration
 	angular_velocity *= damping
 	angle += angular_velocity
+
 	global_position = attachment_position + Vector2(
-		arm_length * sin(angle),
-		arm_length * cos(angle)
-	)
+			sin(angle),
+			cos(angle)
+	) * arm_length
 
 
 func _draw() -> void:
 	var dir_to_ball = attachment_position.direction_to(get_global_position())
 	var steps = ceil(get_arm_length()) / (chain_size + chain_margin).x
-	for i in range(1, steps ):
+	for i in range(1, steps):
 		var link_pos = i * dir_to_ball * (chain_size + chain_margin * 1.5)
 		draw_texture(chain, to_local(attachment_position + link_pos - chain_offset))
 

@@ -45,6 +45,10 @@ run/main_scene="res://src/Levels/Level_2_01.tscn"
 
 GameState="*res://src/GameState.gd"
 
+[debug]
+
+settings/stdout/verbose_stdout=true
+
 [display]
 
 window/size/width=512

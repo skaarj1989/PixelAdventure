@@ -135,7 +135,8 @@ func check_collisions() -> void:
 				take_damage(collider.velocity)
 				return
 			elif collider.is_in_group("trap"):
-				take_damage()
+				take_damage(collision.collider_velocity)
+				#take_damage()
 				return
 			elif collider.is_in_group("enemy"):
 				if can_deal_damage(collider):
