@@ -74,44 +74,44 @@ atlas = ExtResource( 1 )
 region = Rect2( 208, 0, 52, 34 )
 
 [sub_resource type="AtlasTexture" id=18]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 4 )
 region = Rect2( 0, 0, 52, 34 )
 
 [sub_resource type="AtlasTexture" id=19]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 4 )
 region = Rect2( 52, 0, 52, 34 )
 
 [sub_resource type="AtlasTexture" id=20]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 4 )
 region = Rect2( 104, 0, 52, 34 )
 
 [sub_resource type="AtlasTexture" id=21]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 4 )
 region = Rect2( 156, 0, 52, 34 )
 
 [sub_resource type="AtlasTexture" id=22]
 atlas = ExtResource( 3 )
-region = Rect2( 208, 0, 52, 34 )
+region = Rect2( 0, 0, 52, 34 )
 
 [sub_resource type="AtlasTexture" id=23]
 atlas = ExtResource( 3 )
-region = Rect2( 260, 0, 52, 34 )
-
-[sub_resource type="AtlasTexture" id=24]
-atlas = ExtResource( 4 )
-region = Rect2( 0, 0, 52, 34 )
-
-[sub_resource type="AtlasTexture" id=25]
-atlas = ExtResource( 4 )
 region = Rect2( 52, 0, 52, 34 )
 
-[sub_resource type="AtlasTexture" id=26]
-atlas = ExtResource( 4 )
+[sub_resource type="AtlasTexture" id=24]
+atlas = ExtResource( 3 )
 region = Rect2( 104, 0, 52, 34 )
 
-[sub_resource type="AtlasTexture" id=27]
-atlas = ExtResource( 4 )
+[sub_resource type="AtlasTexture" id=25]
+atlas = ExtResource( 3 )
 region = Rect2( 156, 0, 52, 34 )
+
+[sub_resource type="AtlasTexture" id=26]
+atlas = ExtResource( 3 )
+region = Rect2( 208, 0, 52, 34 )
+
+[sub_resource type="AtlasTexture" id=27]
+atlas = ExtResource( 3 )
+region = Rect2( 260, 0, 52, 34 )
 
 [sub_resource type="SpriteFrames" id=28]
 animations = [ {
@@ -125,14 +125,14 @@ animations = [ {
 "name": "hit",
 "speed": 20.0
 }, {
-"frames": [ SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ) ],
-"loop": true,
-"name": "run",
-"speed": 20.0
-}, {
-"frames": [ SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ) ],
+"frames": [ SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ) ],
 "loop": false,
 "name": "hit_wall",
+"speed": 20.0
+}, {
+"frames": [ SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ) ],
+"loop": true,
+"name": "run",
 "speed": 20.0
 } ]
 
@@ -150,7 +150,6 @@ shape = SubResource( 1 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 28 )
 animation = "idle"
-frame = 6
 playing = true
 
 [node name="Recover" type="Timer" parent="."]
@@ -160,6 +159,7 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="."]
+visible = false
 margin_left = -16.0
 margin_top = -24.0
 margin_right = 24.0
