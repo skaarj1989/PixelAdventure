@@ -22,24 +22,24 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Prev" type="TextureButton" parent="HBoxContainer"]
+[node name="PrevLevelButton" type="TextureButton" parent="HBoxContainer"]
 margin_left = 449.0
 margin_right = 470.0
 margin_bottom = 22.0
 texture_normal = ExtResource( 4 )
 
-[node name="Next" type="TextureButton" parent="HBoxContainer"]
+[node name="NextLevelButton" type="TextureButton" parent="HBoxContainer"]
 margin_left = 470.0
 margin_right = 491.0
 margin_bottom = 22.0
 texture_normal = ExtResource( 3 )
 
-[node name="Restart" type="TextureButton" parent="HBoxContainer"]
+[node name="RestartLevelButton" type="TextureButton" parent="HBoxContainer"]
 margin_left = 491.0
 margin_right = 512.0
 margin_bottom = 22.0
 texture_normal = ExtResource( 2 )
 
-[connection signal="pressed" from="HBoxContainer/Prev" to="." method="_on_Prev_pressed"]
-[connection signal="pressed" from="HBoxContainer/Next" to="." method="_on_Next_pressed"]
-[connection signal="pressed" from="HBoxContainer/Restart" to="." method="_on_Restart_pressed"]
+[connection signal="pressed" from="HBoxContainer/PrevLevelButton" to="." method="_on_PrevLevelButton_pressed"]
+[connection signal="pressed" from="HBoxContainer/NextLevelButton" to="." method="_on_NextLevelButton_pressed"]
+[connection signal="pressed" from="HBoxContainer/RestartLevelButton" to="." method="_on_RestartLevelButton_pressed"]

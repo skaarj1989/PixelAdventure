@@ -184,8 +184,8 @@ __meta__ = {
 [node name="TextureRect3" type="TextureRect" parent="."]
 margin_top = 140.0
 margin_right = 88.0
-margin_bottom = 206.0
-rect_min_size = Vector2( 44, 66 )
+margin_bottom = 184.0
+rect_min_size = Vector2( 44, 0 )
 rect_pivot_offset = Vector2( 22, 22 )
 texture = ExtResource( 1 )
 __meta__ = {

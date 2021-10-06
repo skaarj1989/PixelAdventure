@@ -1,20 +1,26 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://src/Main.gd" type="Script" id=1]
 [ext_resource path="res://src/Transition.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/UI/HUD.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/UI/PauseMenu.tscn" type="PackedScene" id=4]
 
 [node name="Main" type="Node"]
+pause_mode = 2
 script = ExtResource( 1 )
 initial_chapter = 2
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="HUD" parent="CanvasLayer" instance=ExtResource( 3 )]
-
 [node name="Transition" parent="." instance=ExtResource( 2 )]
+pause_mode = 1
 
-[connection signal="next_level" from="CanvasLayer/HUD" to="." method="_on_HUD_next_level"]
-[connection signal="prev_level" from="CanvasLayer/HUD" to="." method="_on_HUD_prev_level"]
-[connection signal="restart_level" from="CanvasLayer/HUD" to="." method="_on_HUD_restart_level"]
-[connection signal="transitioned" from="Transition" to="." method="_on_Transition_transitioned"]
+[node name="Interface" type="CanvasLayer" parent="."]
+
+[node name="HUD" parent="Interface" instance=ExtResource( 3 )]
+pause_mode = 1
+
+[node name="PauseMenu" parent="Interface" instance=ExtResource( 4 )]
+pause_mode = 2
+
+[connection signal="next_level" from="Interface/HUD" to="." method="_on_HUD_next_level"]
+[connection signal="prev_level" from="Interface/HUD" to="." method="_on_HUD_prev_level"]
+[connection signal="restart_level" from="Interface/HUD" to="." method="_on_HUD_restart_level"]

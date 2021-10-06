@@ -9,28 +9,34 @@ export(int) var initial_chapter := 1
 export(int) var initial_level := 1
 
 var current_level: Node
-var locked_hud := false
 
+
+func _init() -> void:
+	OS.min_window_size = OS.window_size
+	OS.max_window_size = OS.get_screen_size()
+
+
+onready var _pause_menu := $Interface/PauseMenu
+onready var _hud := $Interface/HUD
+onready var _transition := $Transition
 
 func _ready() -> void:
 	open_level(initial_chapter, initial_level)
 
 
-func _process(_delta: float) -> void:
-	if Input.is_key_pressed(KEY_ESCAPE):
-		get_tree().quit()
+func _unhandled_input(event) -> void:
+	if event.is_action_pressed("pause"):
+		var tree = get_tree()
+		_pause_menu.call("open" if not tree.paused else "close")
+		tree.set_input_as_handled()
 
 
 func _on_HUD_restart_level() -> void:
-	if locked_hud: return
-	
 	var stats = current_level.get_info()
 	open_level(stats.chapter_id, stats.level_id)
 
 
 func _on_HUD_next_level() -> void:
-	if locked_hud: return
-	
 	var stats = current_level.get_info()
 	var chapter_id = stats.chapter_id
 	var current_chapter = CHAPTERS[chapter_id]
@@ -46,8 +52,6 @@ func _on_HUD_next_level() -> void:
 
 
 func _on_HUD_prev_level() -> void:
-	if locked_hud: return
-	
 	var stats = current_level.get_info()
 	var chapter_id = stats.chapter_id
 	var level_id = stats.level_id
@@ -64,20 +68,15 @@ func _on_HUD_prev_level() -> void:
 		open_level(chapter_id, level_id)
 
 
-func _on_Transition_transitioned() -> void:
-	locked_hud = false
-
-
 func open_level(chapter: int, level: int) -> void:
-	locked_hud = true
+	_hud.visible = false
 	
 	var str_id = "Level_%d_%0*d" % [chapter, 2, level]
 	var loader = ResourceLoader.load_interactive("res://src/Levels/%s.tscn" % str_id)
 	
 	if current_level:
-		$Transition.get_node("HBoxContainer").show()
-		$Transition.fade_out()
-		yield($Transition, "transitioned")
+		_transition.fade_out()
+		yield(_transition, "transitioned")
 		remove_child(current_level)
 	
 	loader.wait()
@@ -85,6 +84,7 @@ func open_level(chapter: int, level: int) -> void:
 	current_level = (loader.get_resource() as PackedScene).instance()
 	add_child(current_level)
 	
-	$Transition.fade_in()
-	yield($Transition, "transitioned")
+	_transition.fade_in()
+	yield(_transition, "transitioned")
+	_hud.visible = true	
 	current_level.create_player()

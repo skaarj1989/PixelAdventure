@@ -3848,6 +3848,7 @@ points = PoolVector2Array( 0, 8, 16, 8, 16, 16, 0, 16 )
 7/z_index = 0
 
 [node name="Level" type="Node2D"]
+pause_mode = 1
 script = ExtResource( 11 )
 
 [node name="AnimatedBackground" parent="." instance=ExtResource( 6 )]
