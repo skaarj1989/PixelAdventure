@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/orange_particle.png-7eb1f2402b6bdfad843405229fe80fc9.stex"
+path="res://.import/particles.png-3739d736a411dd253a073f6515b07592.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Enemies/Skull/orange_particle.png"
-dest_files=[ "res://.import/orange_particle.png-7eb1f2402b6bdfad843405229fe80fc9.stex" ]
+source_file="res://assets/Enemies/Skull/particles.png"
+dest_files=[ "res://.import/particles.png-3739d736a411dd253a073f6515b07592.stex" ]
 
 [params]
 

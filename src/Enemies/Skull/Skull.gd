@@ -77,9 +77,11 @@ func _on_AnimatedSprite_animation_finished() -> void:
 	match $AnimatedSprite.animation:
 		"hit_wall1": # Turn on death field ...
 			$AnimatedSprite.play("idle1")
+			$Particles2D.emitting = true
 			$DeathField/CollisionShape2D.disabled = false
 		"hit_wall2": # ... and off
 			$AnimatedSprite.play("idle2")
+			$Particles2D.emitting = false
 
 
 func _on_DeathField_body_entered(body) -> void:

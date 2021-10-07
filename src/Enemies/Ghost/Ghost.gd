@@ -1,11 +1,13 @@
 extends KinematicBody2D
 
 enum {VISIBLE, INVISIBLE, HIT}
+
 const PLAYER_LAYER := 1
 const ENEMY_LAYER := 2
 const ROTATE_SPEED := 160.0 # Degrees/second (on death)
 
-export(GameState.FACING) var facing := GameState.FACING.RIGHT
+#export(GameState.FACING) var facing := GameState.FACING.RIGHT
+export(int) var facing := 1
 export(float) var speed := 1.0 # Tiles/sec
 # (optional) Line2D that holds exactly 2 points
 export(NodePath) var patrol_path
@@ -30,7 +32,7 @@ func _process(_delta: float) -> void:
 	if state != HIT:
 		velocity.x = facing * speed * GameState.TILE_SIZE
 		if patrol_path and is_patrol_point_reached():
-			facing = -facing
+			turn_around()
 	else:
 		rotation_degrees += -facing * ROTATE_SPEED * _delta
 		if GameState.is_outside(position):
@@ -60,7 +62,7 @@ func check_collisions() -> void:
 			velocity = last_velocity # Don't stop movement on collision
 			return
 		elif collision.normal.x != 0:
-			facing = -facing
+			turn_around()
 
 
 func change_state(new_state) -> void:
@@ -73,10 +75,12 @@ func change_state(new_state) -> void:
 			$AnimatedSprite.play("appear")
 		INVISIBLE:
 			$AnimatedSprite.play("disappear")
+			$Particles2D.emitting = false
 			set_collision_layer_bit(ENEMY_LAYER, false)
 			set_collision_mask_bit(PLAYER_LAYER, false)
 		HIT:
 			$AnimatedSprite.play("hit")
+			$Particles2D.emitting = false
 			$CollisionShape2D.disabled = true
 			$Timer.stop()
 		
@@ -100,6 +104,12 @@ func take_damage(_from: Vector2 = Vector2.ZERO) -> bool:
 	return true
 
 
+func turn_around() -> void:
+	facing = -facing
+	$Particles2D.position.x = 18 * -facing
+	$Particles2D.process_material.direction.x = -facing
+
+
 func _on_Timer_timeout() -> void:
 	change_state(VISIBLE if state == INVISIBLE else INVISIBLE)
 	rng.randomize()
@@ -110,6 +120,7 @@ func _on_AnimatedSprite_animation_finished() -> void:
 	match $AnimatedSprite.animation:
 		"appear":
 			$AnimatedSprite.play("idle")
+			$Particles2D.emitting = true
 			set_collision_layer_bit(ENEMY_LAYER, true)
 			set_collision_mask_bit(PLAYER_LAYER, true)
 		"disappear":
