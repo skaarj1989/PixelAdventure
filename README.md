@@ -8,8 +8,9 @@
 
 - Graphic assets by: https://pixelfrog-assets.itch.io/
 - Font: https://www.kenney.nl/assets/kenney-fonts
-- Audio:
-  - aa
+- SFX:
+  - https://opengameart.org/content/sound-effects-mini-pack15
+  - https://www.freesfx.co.uk/
 
 ## License
 
