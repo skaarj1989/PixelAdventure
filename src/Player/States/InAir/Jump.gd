@@ -4,6 +4,7 @@ extends "InAir.gd"
 func enter(_msg: Dictionary = {}) -> void:
 	.enter(_msg)
 	player.animation_player.play("jump")
+	$Audio.play()
 	player.velocity.y = -(GameState.TILE_SIZE * _msg["power"])
 
 

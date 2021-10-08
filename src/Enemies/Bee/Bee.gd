@@ -66,6 +66,7 @@ func shoot() -> void:
 			position + Vector2(0, 16),
 			Vector2.DOWN * bullet_speed
 	)
+	$Shot.play()
 
 
 func change_state(new_state) -> void:

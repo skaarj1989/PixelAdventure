@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/15194_1460389390.wav-84eb51696580941e536dfe540d850cc2.sample"
+
+[deps]
+
+source_file="res://assets/SFX/Boing/15194_1460389390.wav"
+dest_files=[ "res://.import/15194_1460389390.wav-84eb51696580941e536dfe540d850cc2.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

@@ -136,11 +136,11 @@ func check_collisions() -> void:
 				return
 			elif collider.is_in_group("trap"):
 				take_damage(collision.collider_velocity)
-				#take_damage()
 				return
 			elif collider.is_in_group("enemy"):
 				if can_deal_damage(collider):
 					if collider.take_damage(last_velocity):
+						$Punch.play()
 						bounce_up(8.0)
 				else:
 					take_damage()

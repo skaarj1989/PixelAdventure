@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://src/Player/MainCharacter.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/Player/States/OnGround/Idle.gd" type="Script" id=2]
@@ -11,6 +11,10 @@
 [ext_resource path="res://src/StateMachine/StateMachine.gd" type="Script" id=9]
 [ext_resource path="res://src/Player/States/InAir/Fall.gd" type="Script" id=10]
 [ext_resource path="res://src/Player/States/InAir/Jump.gd" type="Script" id=11]
+[ext_resource path="res://assets/SFX/Teleport1__004.wav" type="AudioStream" id=12]
+[ext_resource path="res://assets/SFX/Hits/hit12.wav" type="AudioStream" id=13]
+[ext_resource path="res://assets/SFX/Jump.wav" type="AudioStream" id=14]
+[ext_resource path="res://assets/SFX/Jump4.wav" type="AudioStream" id=15]
 
 [node name="Player" groups=[
 "player",
@@ -26,7 +30,7 @@ position = Vector2( -4, 4 )
 cast_to = Vector2( 4, 0 )
 
 [node name="Sprite" parent="." index="2"]
-frame = 6
+frame = 31
 
 [node name="AnimatedSprite" parent="." index="4"]
 z_index = 1
@@ -37,6 +41,10 @@ initial_state = NodePath("Idle")
 
 [node name="Appear" type="Node" parent="StateMachine" index="0"]
 script = ExtResource( 6 )
+
+[node name="Audio" type="AudioStreamPlayer" parent="StateMachine/Appear" index="0"]
+stream = ExtResource( 12 )
+volume_db = -10.0
 
 [node name="Idle" type="Node" parent="StateMachine" index="1"]
 script = ExtResource( 2 )
@@ -50,11 +58,17 @@ wait_time = 0.3
 [node name="Jump" type="Node" parent="StateMachine" index="3"]
 script = ExtResource( 11 )
 
+[node name="Audio" type="AudioStreamPlayer" parent="StateMachine/Jump" index="0"]
+stream = ExtResource( 14 )
+
 [node name="Fall" type="Node" parent="StateMachine" index="4"]
 script = ExtResource( 10 )
 
 [node name="DoubleJump" type="Node" parent="StateMachine" index="5"]
 script = ExtResource( 4 )
+
+[node name="Audio" type="AudioStreamPlayer" parent="StateMachine/DoubleJump" index="0"]
+stream = ExtResource( 15 )
 
 [node name="WallJump" type="Node" parent="StateMachine" index="6"]
 script = ExtResource( 5 )
@@ -62,7 +76,11 @@ script = ExtResource( 5 )
 [node name="Hit" type="Node" parent="StateMachine" index="7"]
 script = ExtResource( 3 )
 
-[node name="Label" type="Label" parent="." index="6"]
+[node name="Punch" type="AudioStreamPlayer" parent="." index="6"]
+stream = ExtResource( 13 )
+volume_db = -20.0
+
+[node name="Label" type="Label" parent="." index="7"]
 visible = false
 margin_left = -24.0
 margin_top = -32.0

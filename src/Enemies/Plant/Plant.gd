@@ -60,6 +60,7 @@ func shot() -> void:
 			position + Vector2(facing * 20, 1),	
 			Vector2(facing, 0) * GameState.TILE_SIZE * 6
 	)
+	$Shot.play()
 
 
 func take_damage(_from: Vector2 = Vector2.ZERO) -> bool:

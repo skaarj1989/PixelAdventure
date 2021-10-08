@@ -15,6 +15,7 @@ func _ready() -> void:
 
 func enter(_msg: Dictionary = {}) -> void:
 	.enter()
+	$Audio.play()
 	player.collision_shape.disabled = true
 	player.animated_sprite.visible = true
 	player.animated_sprite.play("appear")

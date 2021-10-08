@@ -88,6 +88,7 @@ func shot() -> void:
 			position + Vector2(facing * 19, 4),
 			Vector2(facing, 0) * GameState.TILE_SIZE * 6
 	)
+	$Shot.play()
 	can_shoot = false
 
 

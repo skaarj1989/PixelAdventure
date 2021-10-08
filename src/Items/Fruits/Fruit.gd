@@ -17,6 +17,7 @@ func _on_Fruit_body_entered(body) -> void:
 	if body.is_in_group("player"):
 		$AnimatedSprite.visible = true
 		$AnimatedSprite.animation = "collected"
+		$Audio.play()
 		$Sprite.visible = false
 
 
