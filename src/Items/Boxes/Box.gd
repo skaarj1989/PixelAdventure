@@ -8,7 +8,8 @@ const OFFSETS := [
 	Vector2(-1,  1), Vector2(1,  1), # Bottom
 ]
 
-onready var box_piece = preload("res://src/Items/Boxes/BoxPiece.tscn")
+onready var _box_piece_prefab := preload("res://src/Items/Boxes/BoxPiece.tscn")
+onready var _hit := preload("res://assets/SFX/Impact/18400_1464709080.wav")
 
 func _ready() -> void:
 	#warning-ignore:return_value_discarded
@@ -31,23 +32,24 @@ func _physics_process(_delta: float) -> void:
 
 func take_damage() -> void:
 	$AnimationPlayer.play("hit")
+	$Audio.play()
 	hit_points -= 1
 	GameState.camera.add_trauma(0.5)
 
 
 func destroy() -> void:
 	$CollisionShape2D.disabled = true
+	$Sprite.visible = false
 	
 	var variant = filename.get_file().get_basename()
 	for i in range(4):
 		var offset = OFFSETS[i]
-		var piece = box_piece.instance()
+		var piece = _box_piece_prefab.instance()
 		piece.variant = variant
 		piece.get_node("Sprite").frame = i
 		piece.position = position + offset * 5
 		get_parent().add_child(piece)
 		piece.apply_impulse(Vector2.ZERO, offset * GameState.TILE_SIZE)
-	queue_free()
 
 
 func animation_finished(anim_name: String) -> void:
@@ -55,3 +57,8 @@ func animation_finished(anim_name: String) -> void:
 		$AnimationPlayer.play("idle")
 		if hit_points == 0:
 			destroy()
+
+
+func _on_Audio_finished() -> void:
+	if hit_points == 0:
+		queue_free()

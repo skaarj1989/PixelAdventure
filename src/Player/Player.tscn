@@ -44,7 +44,7 @@ script = ExtResource( 6 )
 
 [node name="Audio" type="AudioStreamPlayer" parent="StateMachine/Appear" index="0"]
 stream = ExtResource( 12 )
-volume_db = -10.0
+volume_db = -15.0
 
 [node name="Idle" type="Node" parent="StateMachine" index="1"]
 script = ExtResource( 2 )
@@ -54,6 +54,8 @@ script = ExtResource( 8 )
 
 [node name="Timer" type="Timer" parent="StateMachine/Run" index="0"]
 wait_time = 0.3
+
+[node name="Audio" type="AudioStreamPlayer" parent="StateMachine/Run" index="1"]
 
 [node name="Jump" type="Node" parent="StateMachine" index="3"]
 script = ExtResource( 11 )
@@ -92,3 +94,4 @@ __meta__ = {
 }
 
 [connection signal="timeout" from="StateMachine/Run/Timer" to="StateMachine/Run" method="_on_Timer_timeout"]
+[connection signal="finished" from="StateMachine/Run/Audio" to="StateMachine/Run" method="_on_Audio_finished"]

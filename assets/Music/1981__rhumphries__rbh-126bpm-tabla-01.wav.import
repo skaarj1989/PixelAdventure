@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/1981__rhumphries__rbh-126bpm-tabla-01.wav-e3e15af8d85e1bd9f249465d01c79575.sample"
+
+[deps]
+
+source_file="res://assets/Music/1981__rhumphries__rbh-126bpm-tabla-01.wav"
+dest_files=[ "res://.import/1981__rhumphries__rbh-126bpm-tabla-01.wav-e3e15af8d85e1bd9f249465d01c79575.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

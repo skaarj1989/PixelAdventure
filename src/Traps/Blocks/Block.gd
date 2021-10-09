@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
-onready var part_prefabs = [
+
+onready var _part_prefabs = [
 	preload("Part1.tscn"),
 	preload("Part2.tscn")
 ]
@@ -23,14 +24,20 @@ func _physics_process(_delta: float) -> void:
 
 func destroy() -> void:
 	$CollisionShape2D.disabled = true
-	for prefab in part_prefabs:
+	$AnimatedSprite.visible = false
+	$Audio.play()
+
+	for prefab in _part_prefabs:
 		var part = prefab.instance()
 		part.position = position
 		get_parent().add_child(part)
-	queue_free()
 
 
 func _on_AnimatedSprite_animation_finished() -> void:
 	match $AnimatedSprite.animation:
 		"hit_top", "hit_side":
 			destroy()
+
+
+func _on_Audio_finished() -> void:
+	queue_free()

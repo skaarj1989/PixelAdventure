@@ -95,5 +95,8 @@ margin_right = 69.0
 margin_bottom = 52.0
 text = "QUIT"
 
+[node name="Audio" type="AudioStreamPlayer" parent="."]
+volume_db = -15.0
+
 [connection signal="pressed" from="CenterContainer/VBoxContainer/CenterContainer/VBoxContainer/ResumeButton" to="." method="_on_Resume_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/CenterContainer/VBoxContainer/QuitButton" to="." method="_on_Quit_pressed"]

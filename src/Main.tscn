@@ -21,6 +21,11 @@ pause_mode = 1
 [node name="PauseMenu" parent="Interface" instance=ExtResource( 4 )]
 pause_mode = 2
 
+[node name="Music" type="AudioStreamPlayer" parent="."]
+
+[node name="Tween" type="Tween" parent="."]
+
 [connection signal="next_level" from="Interface/HUD" to="." method="_on_HUD_next_level"]
 [connection signal="prev_level" from="Interface/HUD" to="." method="_on_HUD_prev_level"]
 [connection signal="restart_level" from="Interface/HUD" to="." method="_on_HUD_restart_level"]
+[connection signal="finished" from="Music" to="." method="_on_Music_finished"]

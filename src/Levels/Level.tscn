@@ -1,4 +1,4 @@
-[gd_scene load_steps=148 format=2]
+[gd_scene load_steps=149 format=2]
 
 [ext_resource path="res://assets/Other/shadow.png" type="Texture" id=1]
 [ext_resource path="res://assets/Traps/Platforms/chain.png" type="Texture" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://assets/Items/Fruits/spritesheet.png" type="Texture" id=4]
 [ext_resource path="res://assets/Traps/Blocks/idle.png" type="Texture" id=5]
 [ext_resource path="res://src/Background/AnimatedBackground.tscn" type="PackedScene" id=6]
+[ext_resource path="res://assets/SFX/Lose4.wav" type="AudioStream" id=7]
 [ext_resource path="res://assets/Traps/Spikes/spikes.png" type="Texture" id=8]
 [ext_resource path="res://assets/Terrain/terrain.png" type="Texture" id=9]
 [ext_resource path="res://src/FX/ShakeCamera2D.gd" type="Script" id=10]
@@ -3953,3 +3954,7 @@ position = Vector2( 256, 132 )
 __meta__ = {
 "_edit_lock_": true
 }
+
+[node name="Death" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
+volume_db = -5.0

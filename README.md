@@ -8,8 +8,10 @@
 
 - Graphic assets by: https://pixelfrog-assets.itch.io/
 - Font: https://www.kenney.nl/assets/kenney-fonts
+- Music: https://freesound.org/people/RHumphries/packs/117/
 - SFX:
   - https://opengameart.org/content/sound-effects-mini-pack15
+  - https://opengameart.org/content/37-hitspunches
   - https://www.freesfx.co.uk/
 
 ## License

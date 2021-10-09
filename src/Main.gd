@@ -20,6 +20,15 @@ onready var _pause_menu := $Interface/PauseMenu
 onready var _hud := $Interface/HUD
 onready var _transition := $Transition
 
+onready var _tracks := [
+	preload("res://assets/Music/1977__rhumphries__rbh-126bpm-tabla-04.wav"),
+	preload("res://assets/Music/1980__rhumphries__rbh-126bpm-tabla-09.wav"),
+	preload("res://assets/Music/1981__rhumphries__rbh-126bpm-tabla-01.wav"),
+	preload("res://assets/Music/1982__rhumphries__rbh-126bpm-tabla-02.wav"),
+	preload("res://assets/Music/1984__rhumphries__rbh-126bpm-tabla-07.wav"),
+	preload("res://assets/Music/1985__rhumphries__rbh-126bpm-tabla-08.wav"),
+]
+
 func _ready() -> void:
 	open_level(initial_chapter, initial_level)
 
@@ -69,6 +78,7 @@ func _on_HUD_prev_level() -> void:
 
 
 func open_level(chapter: int, level: int) -> void:
+	fade_out_music()
 	_hud.visible = false
 	
 	var str_id = "Level_%d_%0*d" % [chapter, 2, level]
@@ -85,6 +95,29 @@ func open_level(chapter: int, level: int) -> void:
 	add_child(current_level)
 	
 	_transition.fade_in()
+	play_random_track()
 	yield(_transition, "transitioned")
 	_hud.visible = true	
 	current_level.create_player()
+
+
+func _on_Music_finished() -> void:
+	$Music.play()
+
+
+func fade_out_music() -> void:
+	$Tween.interpolate_property($Music, "volume_db", 0, -80, 1, Tween.TRANS_SINE, Tween.EASE_IN, 0)
+	$Tween.start()
+
+
+func fade_in_music() -> void:
+	$Music.volume_db = -80
+	$Tween.interpolate_property($Music, "volume_db", -80, 0, 1, Tween.TRANS_SINE, Tween.EASE_IN, 0)
+	$Tween.start()
+
+
+func play_random_track() -> void:
+	_tracks.shuffle()
+	$Music.set_stream(_tracks.front())
+	fade_in_music()
+	$Music.play()

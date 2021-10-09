@@ -1,9 +1,10 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://assets/Traps/Blocks/hit_side.png" type="Texture" id=1]
 [ext_resource path="res://assets/Traps/Blocks/idle.png" type="Texture" id=2]
 [ext_resource path="res://assets/Traps/Blocks/hit_top.png" type="Texture" id=3]
 [ext_resource path="res://src/Traps/Blocks/Block.gd" type="Script" id=4]
+[ext_resource path="res://assets/SFX/Impact/18400_1464709080.wav" type="AudioStream" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7, 8 )
@@ -13,27 +14,27 @@ atlas = ExtResource( 2 )
 region = Rect2( 0, 0, 22, 22 )
 
 [sub_resource type="AtlasTexture" id=3]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 3 )
 region = Rect2( 0, 0, 22, 22 )
 
 [sub_resource type="AtlasTexture" id=4]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 3 )
 region = Rect2( 22, 0, 22, 22 )
 
 [sub_resource type="AtlasTexture" id=5]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 3 )
 region = Rect2( 44, 0, 22, 22 )
 
 [sub_resource type="AtlasTexture" id=6]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 1 )
 region = Rect2( 0, 0, 22, 22 )
 
 [sub_resource type="AtlasTexture" id=7]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 1 )
 region = Rect2( 22, 0, 22, 22 )
 
 [sub_resource type="AtlasTexture" id=8]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 1 )
 region = Rect2( 44, 0, 22, 22 )
 
 [sub_resource type="SpriteFrames" id=9]
@@ -45,12 +46,12 @@ animations = [ {
 }, {
 "frames": [ SubResource( 3 ), SubResource( 4 ), SubResource( 5 ) ],
 "loop": false,
-"name": "hit_side",
+"name": "hit_top",
 "speed": 20.0
 }, {
 "frames": [ SubResource( 6 ), SubResource( 7 ), SubResource( 8 ) ],
 "loop": false,
-"name": "hit_top",
+"name": "hit_side",
 "speed": 20.0
 } ]
 
@@ -66,4 +67,8 @@ shape = SubResource( 1 )
 frames = SubResource( 9 )
 animation = "idle"
 
+[node name="Audio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+
 [connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
+[connection signal="finished" from="Audio" to="." method="_on_Audio_finished"]

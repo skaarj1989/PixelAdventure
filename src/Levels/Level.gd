@@ -1,9 +1,9 @@
 extends Node2D
 
 
-onready var player_prefab := preload("res://src/Player/Player.tscn")
-onready	var fruit_prefab := preload("res://src/Items/Fruits/Fruit.tscn")
-onready var block_prefab := preload("res://src/Traps/Blocks/Block.tscn")
+onready var _player_prefab := preload("res://src/Player/Player.tscn")
+onready	var _fruit_prefab := preload("res://src/Items/Fruits/Fruit.tscn")
+onready var _block_prefab := preload("res://src/Traps/Blocks/Block.tscn")
 
 func _ready() -> void:
 	spawn_collectibles()
@@ -32,7 +32,7 @@ func spawn_collectibles() -> void:
 
 
 func spawn_fruit(type: String, position: Vector2):
-	var fruit = fruit_prefab.instance()
+	var fruit = _fruit_prefab.instance()
 	fruit.type = type
 	return spawn_object(fruit, position)
 
@@ -41,7 +41,7 @@ func spawn_blocks() -> void:
 	$Blocks.hide()
 	var offset = $Blocks.cell_size * 0.5
 	for cell in $Blocks.get_used_cells():
-		var obj = block_prefab.instance()
+		var obj = _block_prefab.instance()
 		obj = spawn_object(obj, $Blocks.map_to_world(cell) + offset)
 
 
@@ -52,7 +52,13 @@ func spawn_object(obj, position: Vector2):
 
 
 func create_player() -> void:
-	var player = player_prefab.instance()
+	var player = _player_prefab.instance()
 	add_child(player)
-	player.connect("dead", self, "create_player")
+	player.connect("hurt", $Death, "play")
+	player.connect("dead", self, "create_player") # just respawn
 	player.spawn($SpawnPoint.position)
+
+
+func _on_death() -> void:
+	$Death.play()
+	create_player()
