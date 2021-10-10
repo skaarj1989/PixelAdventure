@@ -87,6 +87,7 @@ stream = ExtResource( 13 )
 volume_db = -20.0
 
 [node name="Label" type="Label" parent="." index="7"]
+visible = false
 margin_left = -24.0
 margin_top = -32.0
 margin_right = 31.0
