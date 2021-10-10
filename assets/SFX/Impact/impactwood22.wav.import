@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/impactwood22.wav-a248700446ae404d55c94d6d0d04952e.sample"
+
+[deps]
+
+source_file="res://assets/SFX/Impact/impactwood22.wav"
+dest_files=[ "res://.import/impactwood22.wav-a248700446ae404d55c94d6d0d04952e.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

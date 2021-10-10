@@ -8,7 +8,7 @@ const CHAPTERS := {
 export(int) var initial_chapter := 1
 export(int) var initial_level := 1
 
-var current_level: Node
+var _current_level: Node
 
 
 func _init() -> void:
@@ -40,13 +40,41 @@ func _unhandled_input(event) -> void:
 		tree.set_input_as_handled()
 
 
-func _on_HUD_restart_level() -> void:
-	var stats = current_level.get_info()
+func open_level(chapter: int, level: int) -> void:
+	_fade_out_music()
+	_hud.visible = false
+	
+	var str_id = "Level_%d_%0*d" % [chapter, 2, level]
+	var loader = ResourceLoader.load_interactive("res://src/Levels/%s.tscn" % str_id)
+	
+	if _current_level:
+		_transition.fade_out()
+		yield(_transition, "transitioned")
+		remove_child(_current_level)
+	
+	loader.wait()
+	
+	_current_level = (loader.get_resource() as PackedScene).instance()
+	# warning-ignore:return_value_discarded
+	_current_level.connect("completed", self, "_on_level_completed")
+	# warning-ignore:return_value_discarded
+	_current_level.connect("defeated", self, "_on_defeated")
+	add_child(_current_level)
+	
+	_transition.fade_in()
+	_play_random_track()
+	yield(_transition, "transitioned")
+	_hud.visible = true	
+	_current_level.create_player()
+
+
+func restart_level() -> void:
+	var stats = _current_level.get_info()
 	open_level(stats.chapter_id, stats.level_id)
 
 
-func _on_HUD_next_level() -> void:
-	var stats = current_level.get_info()
+func next_level() -> void:
+	var stats = _current_level.get_info()
 	var chapter_id = stats.chapter_id
 	var current_chapter = CHAPTERS[chapter_id]
 	var level_id = stats.level_id
@@ -61,7 +89,7 @@ func _on_HUD_next_level() -> void:
 
 
 func _on_HUD_prev_level() -> void:
-	var stats = current_level.get_info()
+	var stats = _current_level.get_info()
 	var chapter_id = stats.chapter_id
 	var level_id = stats.level_id
 	if level_id == 1:
@@ -77,47 +105,39 @@ func _on_HUD_prev_level() -> void:
 		open_level(chapter_id, level_id)
 
 
-func open_level(chapter: int, level: int) -> void:
-	fade_out_music()
-	_hud.visible = false
-	
-	var str_id = "Level_%d_%0*d" % [chapter, 2, level]
-	var loader = ResourceLoader.load_interactive("res://src/Levels/%s.tscn" % str_id)
-	
-	if current_level:
-		_transition.fade_out()
-		yield(_transition, "transitioned")
-		remove_child(current_level)
-	
-	loader.wait()
-	
-	current_level = (loader.get_resource() as PackedScene).instance()
-	add_child(current_level)
-	
-	_transition.fade_in()
-	play_random_track()
-	yield(_transition, "transitioned")
-	_hud.visible = true	
-	current_level.create_player()
+func _on_HUD_next_level() -> void:
+	next_level()
+
+
+func _on_HUD_restart_level() -> void:
+	restart_level()
 
 
 func _on_Music_finished() -> void:
 	$Music.play()
 
 
-func fade_out_music() -> void:
-	$Tween.interpolate_property($Music, "volume_db", 0, -80, 1, Tween.TRANS_SINE, Tween.EASE_IN, 0)
-	$Tween.start()
+func _on_level_completed() -> void:
+	next_level()
 
 
-func fade_in_music() -> void:
+func _on_defeated() -> void:
+	restart_level()
+
+
+func _play_random_track() -> void:
+	_tracks.shuffle()
+	$Music.set_stream(_tracks.front())
+	_fade_in_music()
+	$Music.play()
+
+
+func _fade_in_music() -> void:
 	$Music.volume_db = -80
 	$Tween.interpolate_property($Music, "volume_db", -80, 0, 1, Tween.TRANS_SINE, Tween.EASE_IN, 0)
 	$Tween.start()
 
 
-func play_random_track() -> void:
-	_tracks.shuffle()
-	$Music.set_stream(_tracks.front())
-	fade_in_music()
-	$Music.play()
+func _fade_out_music() -> void:
+	$Tween.interpolate_property($Music, "volume_db", 0, -80, 1, Tween.TRANS_SINE, Tween.EASE_IN, 0)
+	$Tween.start()

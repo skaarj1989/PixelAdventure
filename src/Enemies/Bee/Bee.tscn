@@ -35,7 +35,7 @@ tracks/1/keys = {
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],
-"method": "shoot"
+"method": "_shoot"
 } ]
 }
 

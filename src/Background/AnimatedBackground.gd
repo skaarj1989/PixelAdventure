@@ -3,7 +3,7 @@ extends ParallaxBackground
 export(float) var scrolling_speed := 0.5 # Tiles/sec
 
 
-onready var backgrounds = [
+onready var _backgrounds = [
 	preload("res://assets/Background/blue.png"),
 	preload("res://assets/Background/brown.png"),
 	preload("res://assets/Background/gray.png"),
@@ -14,7 +14,7 @@ onready var backgrounds = [
 ]
 
 func _ready() -> void:
-	var bg = GameState.pick_random_item(backgrounds)
+	var bg = GameState.pick_random_item(_backgrounds)
 	$ParallaxLayer/Sprite.tile_set.tile_set_texture(0, bg)
 
 

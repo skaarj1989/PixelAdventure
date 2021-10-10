@@ -4,7 +4,7 @@
 [ext_resource path="res://assets/Traps/Blocks/idle.png" type="Texture" id=2]
 [ext_resource path="res://assets/Traps/Blocks/hit_top.png" type="Texture" id=3]
 [ext_resource path="res://src/Traps/Blocks/Block.gd" type="Script" id=4]
-[ext_resource path="res://assets/SFX/Impact/18400_1464709080.wav" type="AudioStream" id=5]
+[ext_resource path="res://assets/SFX/Impact/impactwood07.wav" type="AudioStream" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7, 8 )
@@ -69,6 +69,7 @@ animation = "idle"
 
 [node name="Audio" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
+volume_db = -5.0
 
 [connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="finished" from="Audio" to="." method="_on_Audio_finished"]

@@ -14,8 +14,8 @@ var patrol_index := -1
 
 
 func _ready() -> void:
-	setup_patrol_path()
-	change_state(IDLE)
+	_setup_patrol_path()
+	_change_state(IDLE)
 
 
 func _process(_delta: float) -> void:
@@ -39,17 +39,27 @@ func _physics_process(delta: float) -> void:
 	last_velocity = velocity
 	velocity = move_and_slide(velocity, Vector2.UP)
 	if state != HIT:
-		check_collisions()
+		_check_collisions()
 
 
-func setup_patrol_path() -> void:
+func take_damage(_from: Vector2 = Vector2.ZERO) -> bool:
+	velocity = Vector2(
+		-sign(velocity.x),
+		-5.0
+	) * GameState.TILE_SIZE
+	_change_state(HIT)
+	GameState.camera.add_trauma(0.5)
+	return true
+
+
+func _setup_patrol_path() -> void:
 	assert(patrol_path)
 	patrol_points = get_node(patrol_path).curve.get_baked_points()
 	var closest_point = GameState.get_closest_point(patrol_points, position)
 	patrol_index = Array(patrol_points).find(closest_point)
 
 
-func check_collisions() -> void:
+func _check_collisions() -> void:
 	for idx in range(get_slide_count()):
 		var collision = get_slide_collision(idx)
 		var collider = collision.collider
@@ -59,17 +69,18 @@ func check_collisions() -> void:
 			return
 
 
-func shoot() -> void:
+func _shoot() -> void:
 	var bullet_speed = GameState.TILE_SIZE * 8
-	GameState.shot_bullet(
+	var bullet = GameState.shot_bullet(
 			"Bee",
 			position + Vector2(0, 16),
 			Vector2.DOWN * bullet_speed
 	)
+	get_parent().add_child(bullet)
 	$Shot.play()
 
 
-func change_state(new_state) -> void:
+func _change_state(new_state) -> void:
 	if state == new_state:
 		return
 	
@@ -86,21 +97,11 @@ func change_state(new_state) -> void:
 	state = new_state
 
 
-func take_damage(_from: Vector2 = Vector2.ZERO) -> bool:
-	velocity = Vector2(
-		-sign(velocity.x),
-		-5.0
-	) * GameState.TILE_SIZE
-	change_state(HIT)
-	GameState.camera.add_trauma(0.5)
-	return true
-
-
 func _on_AggroArea_body_entered(body) -> void:
 	if body.is_in_group("player"):
-		change_state(ATTACK)
+		_change_state(ATTACK)
 
 
 func _on_AggroArea_body_exited(body) -> void:
 	if state != HIT and body.is_in_group("player"):
-		change_state(IDLE)
+		_change_state(IDLE)

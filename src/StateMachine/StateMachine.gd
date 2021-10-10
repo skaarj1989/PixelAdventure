@@ -33,7 +33,6 @@ func transition_to(target_state_name: String, msg: Dictionary = {}) -> void:
 		return
 
 	var next_state = get_node(target_state_name)
-
 	#print("Enter: ", target_state_name)
 
 	state.exit()

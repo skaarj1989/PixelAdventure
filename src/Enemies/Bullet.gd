@@ -17,19 +17,20 @@ func _ready() -> void:
 func _physics_process(_delta: float) -> void:
 	last_velocity = velocity
 	velocity = move_and_slide(velocity, Vector2.UP)
-	check_collisions()
+	_check_collisions()
 
 
-func check_collisions() -> void:
+func _check_collisions() -> void:
 	for idx in range(get_slide_count()):
 		var collision = get_slide_collision(idx)
 		var collider = collision.collider
 		if collider.is_in_group("player"):
 			collider.take_damage(last_velocity)
-		smash()
+		_smash()
 
 
-func smash() -> void:
+func _smash() -> void:
+	$CollisionShape2D.disabled = true
 	$Sprite.visible = false
 	$Audio.play()
 	

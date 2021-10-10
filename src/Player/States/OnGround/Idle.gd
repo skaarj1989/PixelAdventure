@@ -11,9 +11,9 @@ func exit() -> void:
 
 
 func update(_delta: float) -> void:
-	.update(_delta)
 	if not player.is_idle():
 		state_machine.transition_to("Run")
+	.update(_delta)
 
 
 func physics_update(_delta: float) -> void:

@@ -10,13 +10,13 @@ enum SURFACE_TYPE {DEFAULT, SAND, MUD, ICE}
 
 var camera: Camera2D = null
 
-onready var dust_prefab := preload("res://src/FX/Dust.tscn")
-onready var splash_prefab := preload("res://src/FX/Splash.tscn")
-onready var bullet_prefab = preload("res://src/Enemies/Bullet.tscn")
+onready var _dust_prefab := preload("res://src/FX/Dust.tscn")
+onready var _splash_prefab := preload("res://src/FX/Splash.tscn")
+onready var _bullet_prefab = preload("res://src/Enemies/Bullet.tscn")
 
 
 func spawn_dust(position: Vector2 = Vector2.ZERO, gravity := Vector2(0, -98)):
-	var dust = dust_prefab.instance()
+	var dust = _dust_prefab.instance()
 	dust.position = position
 	dust.process_material.gravity = Vector3(gravity.x, gravity.y, 0.0)
 	dust.process_material.direction = Vector3(sign(gravity.x), sign(gravity.y), 0.0)
@@ -24,7 +24,7 @@ func spawn_dust(position: Vector2 = Vector2.ZERO, gravity := Vector2(0, -98)):
 
 
 func spawn_splash(surface_type, position: Vector2 = Vector2.ZERO):
-	var splash = splash_prefab.instance()
+	var splash = _splash_prefab.instance()
 	splash.position = position
 	match surface_type:
 		SURFACE_TYPE.SAND:
@@ -39,11 +39,10 @@ func spawn_splash(surface_type, position: Vector2 = Vector2.ZERO):
 
 
 func shot_bullet(shooter: String, start_position: Vector2, velocity: Vector2):
-	var bullet = bullet_prefab.instance()
+	var bullet = _bullet_prefab.instance()
 	bullet.shooter_name = shooter
 	bullet.position = start_position
 	bullet.velocity = velocity
-	get_tree().get_root().add_child(bullet)
 	return bullet
 
 

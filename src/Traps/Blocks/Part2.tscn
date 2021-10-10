@@ -24,12 +24,14 @@ animations = [ {
 } ]
 
 [node name="Part2" type="RigidBody2D"]
-collision_mask = 3
 gravity_scale = 4.0
 script = ExtResource( 2 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 polygon = PoolVector2Array( -8, -6, 8, -6, 8, 4, 5, 4, 2.5, 1, 0, 4, -2.5, 4, -5, 2, -8, 2 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 4 )

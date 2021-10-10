@@ -19,8 +19,8 @@ var farm_points = []
 func _ready() -> void:
 	$AggroArea/CollisionShape2D.shape.extents.x = horizontal_sight_extent * GameState.TILE_SIZE
 	if farm_path:
-		setup_farm()
-	change_state(IDLE)
+		_setup_farm()
+	_change_state(IDLE)
 
 
 func _process(_delta: float) -> void:
@@ -38,18 +38,28 @@ func _physics_process(delta: float) -> void:
 	last_velocity = velocity
 	velocity = move_and_slide(velocity, Vector2.UP)
 	if state != HIT:
-		if is_farm_edge_reached():
-			change_state(IDLE)
-		check_collisions()
+		if _is_farm_edge_reached():
+			_change_state(IDLE)
+		_check_collisions()
 
 
-func setup_farm() -> void:
+func take_damage(_from: Vector2 = Vector2.ZERO) -> bool:
+	velocity = Vector2(
+		-facing,
+		-5.0
+	) * GameState.TILE_SIZE
+	_change_state(HIT)
+	GameState.camera.add_trauma(0.5)
+	return true
+
+
+func _setup_farm() -> void:
 	farm_points = Array(get_node(farm_path).get_points())
 	assert(farm_points.size() == 2)
 	farm_points.sort() # Left to right
 
 
-func check_collisions() -> void:
+func _check_collisions() -> void:
 	for idx in range(get_slide_count()):
 		var collision = get_slide_collision(idx)
 		var collider = collision.collider
@@ -58,10 +68,10 @@ func check_collisions() -> void:
 			velocity = last_velocity
 			return
 		elif collision.normal.x != 0:
-			change_state(IDLE)
+			_change_state(IDLE)
 
 
-func change_state(new_state) -> void:
+func _change_state(new_state) -> void:
 	if state == new_state:
 		return
 		
@@ -83,25 +93,15 @@ func change_state(new_state) -> void:
 	state = new_state
 
 
-func take_damage(_from: Vector2 = Vector2.ZERO) -> bool:
-	velocity = Vector2(
-		-facing,
-		-5.0
-	) * GameState.TILE_SIZE
-	change_state(HIT)
-	GameState.camera.add_trauma(0.5)
-	return true
-
-
-func think() -> void:
-	face_the_target()
-	if not is_farm_edge_reached():
+func _think() -> void:
+	_face_the_target()
+	if not _is_farm_edge_reached():
 		if test_move(get_transform(), Vector2(0, 4) + position + Vector2(16, 0) * facing):
-			change_state(RUN)
+			_change_state(RUN)
 	$Timer.start(THINK_INTERVAL)
 
 
-func is_farm_edge_reached() -> bool:
+func _is_farm_edge_reached() -> bool:
 	if not farm_path:
 		return false
 	
@@ -110,23 +110,24 @@ func is_farm_edge_reached() -> bool:
 	return distance < 0 if facing == GameState.FACING.RIGHT else distance > 0 
 
 
-func face_the_target() -> void:
-	if chased_target: facing = sign((chased_target.position - position).x)
+func _face_the_target() -> void:
+	if chased_target:
+		facing = sign((chased_target.position - position).x)
 	$AnimatedSprite.flip_h = facing == GameState.FACING.RIGHT
 
 
 func _on_AggroArea_body_entered(body) -> void:
 	if body.is_in_group("player"):
 		chased_target = body
-		think()
+		_think()
 
 
 func _on_AggroArea_body_exited(body) -> void:
 	if state!= HIT and body.is_in_group("player"):
-		change_state(IDLE)
+		_change_state(IDLE)
 		chased_target = null
 		$Timer.stop()
 
 
 func _on_Timer_timeout() -> void:
-	think()
+	_think()

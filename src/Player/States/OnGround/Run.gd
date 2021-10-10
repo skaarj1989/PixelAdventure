@@ -1,13 +1,13 @@
 extends "OnGround.gd"
 
 
-onready var samples := [
+onready var _samples := [
 	preload("res://assets/SFX/Footstep/Footstep_Dirt_00.wav"),
 	preload("res://assets/SFX/Footstep/Footstep_Dirt_04.wav"),
 ]
 
 func _ready() -> void:
-	$Audio.set_stream(samples.front())
+	$Audio.set_stream(_samples.front())
 
 
 func enter(_msg: Dictionary = {}) -> void:
@@ -23,12 +23,12 @@ func exit() -> void:
 
 
 func update(_delta: float) -> void:
-	.update(_delta)
-	if player.is_idle():
-		state_machine.transition_to("Idle")
-		return
 	if not $Audio.playing:
 		$Audio.play()
+		
+	if player.is_idle():
+		state_machine.transition_to("Idle")
+	.update(_delta)
 
 
 func physics_update(delta: float) -> void:
@@ -43,5 +43,5 @@ func _on_Timer_timeout() -> void:
 
 
 func _on_Audio_finished() -> void:
-	samples.shuffle()
-	$Audio.set_stream(samples.front())
+	_samples.shuffle()
+	$Audio.set_stream(_samples.front())

@@ -16,31 +16,33 @@ var input_direction_x: float
 var can_jump := true
 
 
-onready var collision_shape = $CollisionShape2D
+onready var state_machine := $StateMachine
+onready var collision_shape := $CollisionShape2D
 onready var raycast := $RayCast2D
 onready var sprite := $Sprite
 onready var animation_player := $AnimationPlayer
 onready var animated_sprite := $AnimatedSprite
 
 func _ready() -> void:
-	$Sprite.texture = get_random_skin()
+	$Sprite.texture = _get_random_skin()
 	$Sprite.visible = false
 
 
 func _process(_delta: float) -> void:
-	if $StateMachine.state.name == "Appear":
-		return
+	match $StateMachine.state.name:
+		"Appear", "Disappear":
+			return
 	
-	$Label.text = $StateMachine.state.name
+	#$Label.text = $StateMachine.state.name
 	#$Label.text = String(facing)
 	#$Label.text = "[%.1f, %.1f]" % [velocity.x, velocity.y]
 	#$Label.text = GameState.SURFACE_TYPE.keys()[surface_type]
-	#$Label.text = String(snap)
+	$Label.text = String(snap)
 
 	$Sprite.flip_h = facing == GameState.FACING.LEFT
 	
 	if $StateMachine.state.name != "Hit":
-		input_direction_x = get_input_direction()
+		input_direction_x = _get_input_direction()
 		if input_direction_x != 0:
 			facing = sign(input_direction_x)
 	else:
@@ -53,10 +55,11 @@ func _process(_delta: float) -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	if $StateMachine.state.name == "Appear":
-		return
+	match $StateMachine.state.name:
+		"Appear", "Disappear":
+			return
 	
-	var friction := get_friction()
+	var friction := _get_friction()
 	if $StateMachine.state.name != "Hit":
 		if input_direction_x != 0:
 			var max_velocity = input_direction_x * speed * GameState.TILE_SIZE
@@ -73,7 +76,7 @@ func _physics_process(_delta: float) -> void:
 	#velocity = move_and_slide(velocity, Vector2.UP, false, 4, PI / 4, true)
 	velocity = move_and_slide_with_snap(velocity, snap, Vector2.UP, false, 4, PI / 4, true)
 	if $StateMachine.state.name != "Hit":
-		check_collisions()
+		_check_collisions()
 
 
 func spawn(_position: Vector2) -> void:
@@ -82,18 +85,18 @@ func spawn(_position: Vector2) -> void:
 	$StateMachine.transition_to("Appear")
 
 
-func get_random_skin() -> Texture:
+func _get_random_skin() -> Texture:
 	var skins = ["MaskDude", "NinjaFrog", "PinkMan", "VirtualGuy"]
 	var skin = GameState.pick_random_item(skins)
 	skin = load("res://assets/MainCharacters/%s/spritesheet.png" % skin)
 	return skin
 
 
-func get_input_direction() -> float:
+func _get_input_direction() -> float:
 	return Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
 
 
-func get_friction() -> float:
+func _get_friction() -> float:
 	match surface_type:
 		GameState.SURFACE_TYPE.SAND:
 			return 0.5
@@ -104,7 +107,7 @@ func get_friction() -> float:
 	return 0.25 # SURFACE_TYPE.DEFAULT
 
 
-func check_collisions() -> void:
+func _check_collisions() -> void:
 	var num_collisions = get_slide_count()
 	if num_collisions == 0:
 		surface_type = GameState.SURFACE_TYPE.DEFAULT
@@ -125,10 +128,10 @@ func check_collisions() -> void:
 				surface_type = GameState.SURFACE_TYPE.DEFAULT
 			elif collider.is_in_group("sand"):
 				surface_type = GameState.SURFACE_TYPE.SAND
-				velocity.x *= (1.0 - get_friction())
+				velocity.x *= (1.0 - _get_friction())
 			elif collider.is_in_group("mud"):
 				surface_type = GameState.SURFACE_TYPE.MUD
-				velocity.x *= (1.0 - get_friction())
+				velocity.x *= (1.0 - _get_friction())
 			elif collider.is_in_group("ice"):
 				surface_type = GameState.SURFACE_TYPE.ICE
 			elif collider.is_in_group("projectile"):
@@ -188,10 +191,10 @@ func take_damage(_from: Vector2 = Vector2.ZERO) -> void:
 		velocity.x *= -facing
 	
 	velocity.y = -5 * GameState.TILE_SIZE
-	call_deferred("disable_body")
+	$CollisionShape2D.set_deferred("disabled", true)
 	GameState.camera.add_trauma(0.5)
 	emit_signal("hurt")
 
 
-func disable_body() -> void:
-	$CollisionShape2D.disabled = true
+#func disable_body() -> void:
+#	$CollisionShape2D.disabled = true

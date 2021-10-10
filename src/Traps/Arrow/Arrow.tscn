@@ -87,7 +87,7 @@ shape = SubResource( 1 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 16 )
 animation = "idle"
-frame = 7
+frame = 9
 playing = true
 
 [connection signal="body_entered" from="." to="." method="_on_Arrow_body_entered"]

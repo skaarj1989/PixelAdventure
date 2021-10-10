@@ -3,7 +3,7 @@ extends RigidBody2D
 const MAX_NUM_BLINKS = 12
 
 var variant: String
-var num_blinks = 0
+var _num_blinks := 0
 
 func _ready():
 	assert(variant != "")
@@ -12,9 +12,9 @@ func _ready():
 
 func _on_Timer_timeout():
 	$Sprite.visible = !$Sprite.visible
-	num_blinks += 1
+	_num_blinks += 1
 	
-	if num_blinks == MAX_NUM_BLINKS:
+	if _num_blinks == MAX_NUM_BLINKS:
 		queue_free()
 	else:
 		$Timer.start(0.1)

@@ -3910,6 +3910,8 @@ __meta__ = {
 tile_set = SubResource( 134 )
 cell_size = Vector2( 16, 16 )
 cell_tile_origin = 1
+collision_layer = 0
+collision_mask = 0
 format = 1
 
 [node name="Spikes" type="TileMap" parent="." groups=[
@@ -3928,7 +3930,7 @@ __meta__ = {
 tile_set = SubResource( 137 )
 cell_size = Vector2( 8, 8 )
 cell_quadrant_size = 8
-collision_layer = 16
+collision_layer = 0
 collision_mask = 0
 format = 1
 __meta__ = {

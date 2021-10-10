@@ -23,9 +23,9 @@ func _physics_process(_delta: float) -> void:
 
 
 func destroy() -> void:
-	$CollisionShape2D.disabled = true
+	$CollisionShape2D.set_deferred("disabled", true)
 	$AnimatedSprite.visible = false
-	$Audio.play()
+	$Audio.play(0.2)
 
 	for prefab in _part_prefabs:
 		var part = prefab.instance()
