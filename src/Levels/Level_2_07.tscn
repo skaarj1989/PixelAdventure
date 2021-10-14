@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://src/Levels/Level.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/Enemies/Snail/Snail.tscn" type="PackedScene" id=2]
 
 [node name="Level_2_07" instance=ExtResource( 1 )]
 
@@ -12,3 +13,9 @@ tile_data = PoolIntArray( 262158, 4, 0, 262166, 4, 0, 458762, 4, 0, 458770, 4, 0
 
 [node name="SpawnPoint" parent="." index="10"]
 position = Vector2( 456, 72 )
+
+[node name="Snail" parent="." index="12" instance=ExtResource( 2 )]
+position = Vector2( 192, 96 )
+
+[node name="Snail2" parent="." index="13" instance=ExtResource( 2 )]
+position = Vector2( 128, 224 )
