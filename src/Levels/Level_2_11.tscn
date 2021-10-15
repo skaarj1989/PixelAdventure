@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://src/Levels/Level.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/Enemies/Rocks/Rock1.tscn" type="PackedScene" id=2]
 
 [node name="Level_2_11" instance=ExtResource( 1 )]
 
@@ -12,3 +13,25 @@ tile_data = PoolIntArray( 458762, 6, 0, 458766, 6, 0, 655368, 6, 0, 655372, 6, 0
 
 [node name="SpawnPoint" parent="." index="10"]
 position = Vector2( 456, 56 )
+
+[node name="Rock" parent="." index="12" instance=ExtResource( 2 )]
+position = Vector2( 160, 128 )
+patrol_path = NodePath("../PatrolPath")
+
+[node name="PatrolPath" type="Line2D" parent="." index="13"]
+visible = false
+points = PoolVector2Array( 40, 128, 176, 128 )
+width = 1.0
+default_color = Color( 0.4, 0.501961, 1, 1 )
+
+[node name="Rock2" parent="." index="14" instance=ExtResource( 2 )]
+position = Vector2( 296, 176 )
+patrol_path = NodePath("../PatrolPath2")
+
+[node name="PatrolPath2" type="Line2D" parent="." index="15"]
+visible = false
+points = PoolVector2Array( 200, 176, 320, 176 )
+width = 1.0
+
+[node name="Rock3" parent="." index="16" instance=ExtResource( 2 )]
+position = Vector2( 440, 224 )

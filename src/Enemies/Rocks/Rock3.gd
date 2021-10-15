@@ -1,0 +1,3 @@
+extends "Rock.gd"
+
+# No special behavior ...
