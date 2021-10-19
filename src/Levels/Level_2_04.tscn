@@ -16,14 +16,14 @@ position = Vector2( 64, 56 )
 
 [node name="Chicken" parent="." index="11" instance=ExtResource( 2 )]
 position = Vector2( 408, 222.999 )
-facing = -1
-horizontal_sight_extent = 7.8
+_facing = -1
+_horizontal_sight_extent = 10.0
 
 [node name="Chicken2" parent="." index="12" instance=ExtResource( 2 )]
 position = Vector2( 440, 94.9992 )
-facing = -1
-horizontal_sight_extent = 7.8
-farm_path = NodePath("../Farm2")
+_facing = -1
+_horizontal_sight_extent = 7.0
+_farm_path = NodePath("../Farm2")
 
 [node name="Farm2" type="Line2D" parent="." index="13"]
 visible = false

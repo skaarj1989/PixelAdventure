@@ -1,16 +1,17 @@
 extends KinematicBody2D
 
+enum Facing {LEFT = -1, RIGHT = 1}
 enum {IDLE, ATTACK, HIT}
 const ROTATE_SPEED := 160.0 # Degrees/second (on death)
 
-export(float) var speed := 2.0 # Tiles/sec
-export(NodePath) var patrol_path # (mandatory) Path2D
+export(float) var _speed = 2.0 # Tiles/sec
+export(NodePath) var _patrol_path # (mandatory) Path2D
 
-var state
-var velocity := Vector2.ZERO
-var last_velocity := velocity
-var patrol_points = []
-var patrol_index := -1
+var _state
+var _velocity := Vector2.ZERO
+var _last_velocity := _velocity
+var _patrol_points = []
+var _patrol_index := -1
 
 
 func _ready() -> void:
@@ -19,32 +20,32 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	if state == HIT:
+	if _state == HIT:
 		rotation_degrees += ROTATE_SPEED * _delta
 		if GameState.is_outside(position):
 			queue_free()
 
 
 func _physics_process(delta: float) -> void:
-	if state != HIT:
-		var target = patrol_points[patrol_index]
+	if _state != HIT:
+		var target = _patrol_points[_patrol_index]
 		var d = position.distance_to(target)
 		if d < 16:
-			patrol_index = wrapi(patrol_index + 1, 0, patrol_points.size())
-			target = patrol_points[patrol_index]
-			velocity = (target - position).normalized() * speed * GameState.TILE_SIZE
+			_patrol_index = wrapi(_patrol_index + 1, 0, _patrol_points.size())
+			target = _patrol_points[_patrol_index]
+			_velocity = (target - position).normalized() * _speed * GameState.TILE_SIZE
 	else:
-		velocity.y += GameState.GRAVITY * delta
+		_velocity.y += GameState.GRAVITY * delta
 	
-	last_velocity = velocity
-	velocity = move_and_slide(velocity, Vector2.UP)
-	if state != HIT:
+	_last_velocity = _velocity
+	_velocity = move_and_slide(_velocity, Vector2.UP)
+	if _state != HIT:
 		_check_collisions()
 
 
 func take_damage(_from: Vector2 = Vector2.ZERO) -> bool:
-	velocity = Vector2(
-		-sign(velocity.x),
+	_velocity = Vector2(
+		-sign(_velocity.x),
 		-5.0
 	) * GameState.TILE_SIZE
 	_change_state(HIT)
@@ -53,10 +54,10 @@ func take_damage(_from: Vector2 = Vector2.ZERO) -> bool:
 
 
 func _setup_patrol_path() -> void:
-	assert(patrol_path)
-	patrol_points = get_node(patrol_path).curve.get_baked_points()
-	var closest_point = GameState.get_closest_point(patrol_points, position)
-	patrol_index = Array(patrol_points).find(closest_point)
+	assert(_patrol_path)
+	_patrol_points = get_node(_patrol_path).curve.get_baked_points()
+	var closest_point = GameState.get_closest_point(_patrol_points, position)
+	_patrol_index = Array(_patrol_points).find(closest_point)
 
 
 func _check_collisions() -> void:
@@ -64,9 +65,9 @@ func _check_collisions() -> void:
 		var collision = get_slide_collision(idx)
 		var collider = collision.collider
 		if collider.is_in_group("player"):
-			collider.take_damage(last_velocity)
-			velocity = last_velocity # Don't stop movement on collision
-			return
+			if collider.is_vulnerable_to(self):
+				collider.take_damage(_last_velocity)
+			_velocity = _last_velocity # Don't stop movement on collision
 
 
 func _shoot() -> void:
@@ -81,7 +82,7 @@ func _shoot() -> void:
 
 
 func _change_state(new_state) -> void:
-	if state == new_state:
+	if _state == new_state:
 		return
 	
 	match new_state:
@@ -94,7 +95,7 @@ func _change_state(new_state) -> void:
 			$CollisionShape2D.disabled = true
 			$AggroArea/CollisionShape2D.disabled = true
 		
-	state = new_state
+	_state = new_state
 
 
 func _on_AggroArea_body_entered(body) -> void:
@@ -103,5 +104,5 @@ func _on_AggroArea_body_entered(body) -> void:
 
 
 func _on_AggroArea_body_exited(body) -> void:
-	if state != HIT and body.is_in_group("player"):
+	if _state != HIT and body.is_in_group("player"):
 		_change_state(IDLE)

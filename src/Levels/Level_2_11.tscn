@@ -16,7 +16,7 @@ position = Vector2( 456, 56 )
 
 [node name="Rock" parent="." index="12" instance=ExtResource( 2 )]
 position = Vector2( 160, 128 )
-patrol_path = NodePath("../PatrolPath")
+_patrol_path = NodePath("../PatrolPath")
 
 [node name="PatrolPath" type="Line2D" parent="." index="13"]
 visible = false
@@ -26,7 +26,7 @@ default_color = Color( 0.4, 0.501961, 1, 1 )
 
 [node name="Rock2" parent="." index="14" instance=ExtResource( 2 )]
 position = Vector2( 296, 176 )
-patrol_path = NodePath("../PatrolPath2")
+_patrol_path = NodePath("../PatrolPath2")
 
 [node name="PatrolPath2" type="Line2D" parent="." index="15"]
 visible = false

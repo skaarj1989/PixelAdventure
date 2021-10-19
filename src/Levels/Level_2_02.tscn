@@ -16,7 +16,7 @@ position = Vector2( 432, 40 )
 
 [node name="Trunk" parent="." index="11" instance=ExtResource( 2 )]
 position = Vector2( 88, 144 )
-patrol_path = NodePath("../PatrolPath")
+_patrol_path = NodePath("../PatrolPath")
 
 [node name="PatrolPath" type="Line2D" parent="." index="12"]
 visible = false

@@ -3,49 +3,61 @@ extends KinematicBody2D
 enum {ARMED, DISARMED, HIT}
 const ROTATE_SPEED = 160 # Degrees/second
 
-export(float) var speed := 1.5 # Tiles/sec
+export(float) var _speed = 1.5 # Tiles/sec
 
-var state := DISARMED
-var velocity := Vector2.ZERO
-var last_velocity := velocity
+var _state := DISARMED
+var _velocity := Vector2.ZERO
+var _last_velocity := _velocity
 
 
-onready var rng := RandomNumberGenerator.new()
+onready var _rng := RandomNumberGenerator.new()
 
 func _ready() -> void:
-	rng.randomize()
-	velocity = Vector2(
-		rng.randf_range(-1, 1),
-		rng.randf_range(-1, 1)
-	).normalized() * speed * GameState.TILE_SIZE
+	_rng.randomize()
+	_velocity = Vector2(
+		_rng.randf_range(-1, 1),
+		_rng.randf_range(-1, 1)
+	).normalized() * _speed * GameState.TILE_SIZE
 
 
 func _process(_delta: float) -> void:
-	if state == HIT:
+	if _state == HIT:
 		rotation_degrees += ROTATE_SPEED * _delta
 		if GameState.is_outside(position):
 			queue_free()
 
 
 func _physics_process(_delta: float) -> void:
-	if state == HIT:
-		velocity.y += GameState.GRAVITY * _delta
+	if _state == HIT:
+		_velocity.y += GameState.GRAVITY * _delta
 	
-	last_velocity = velocity
-	var collision = move_and_collide(velocity * _delta)
-	if state != HIT and collision:
+	_last_velocity = _velocity
+	var collision = move_and_collide(_velocity * _delta)
+	if _state != HIT and collision:
 		var collider = collision.collider
 		if collider.is_in_group("player") and collider.is_vulnerable_to(self):
-			collider.take_damage(last_velocity)
-			velocity = last_velocity
+			collider.take_damage(_last_velocity)
+			_velocity = _last_velocity
 		else:
-			velocity = velocity.bounce(collision.normal)
-			change_state(ARMED if state == DISARMED else DISARMED)
+			_velocity = _velocity.bounce(collision.normal)
+			_change_state(ARMED if _state == DISARMED else DISARMED)
 			GameState.camera.add_trauma(0.25)
 
 
-func change_state(new_state) -> void:
-	if state == new_state:
+func take_damage(_from: Vector2 = Vector2.ZERO) -> bool:
+	if _state == DISARMED:
+		_velocity = Vector2(
+			-sign(_velocity.x),
+			-5.0
+		) * GameState.TILE_SIZE
+		_change_state(HIT)
+		GameState.camera.add_trauma(0.5)
+		return true
+	return false
+
+
+func _change_state(new_state) -> void:
+	if _state == new_state:
 		return
 	
 	match new_state:
@@ -58,19 +70,7 @@ func change_state(new_state) -> void:
 			$AnimatedSprite.play("hit")
 			$CollisionShape2D.disabled = true
 		
-	state = new_state
-
-
-func take_damage(_from: Vector2 = Vector2.ZERO) -> bool:
-	if state == DISARMED:
-		velocity = Vector2(
-			-sign(velocity.x),
-			-5.0
-		) * GameState.TILE_SIZE
-		change_state(HIT)
-		GameState.camera.add_trauma(0.5)
-		return true
-	return false
+	_state = new_state
 
 
 func _on_AnimatedSprite_animation_finished() -> void:
@@ -86,4 +86,4 @@ func _on_AnimatedSprite_animation_finished() -> void:
 
 func _on_DeathField_body_entered(body) -> void:
 	if body.is_in_group("player"):
-		body.take_damage(last_velocity)
+		body.take_damage(_last_velocity)

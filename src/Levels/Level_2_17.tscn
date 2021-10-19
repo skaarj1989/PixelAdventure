@@ -16,12 +16,10 @@ position = Vector2( 440, 168 )
 
 [node name="AngryPig" parent="." index="11" instance=ExtResource( 2 )]
 position = Vector2( 320, 224 )
-facing = -1
 
 [node name="AngryPig2" parent="." index="12" instance=ExtResource( 2 )]
 position = Vector2( 296, 112 )
-facing = -1
-patrol_path = NodePath("../Patrol2")
+_patrol_path = NodePath("../Patrol2")
 
 [node name="Patrol2" type="Line2D" parent="." index="13"]
 visible = false
@@ -30,8 +28,7 @@ width = 1.0
 
 [node name="AngryPig3" parent="." index="14" instance=ExtResource( 2 )]
 position = Vector2( 440, 80 )
-facing = -1
-patrol_path = NodePath("../Patrol3")
+_patrol_path = NodePath("../Patrol3")
 
 [node name="Patrol3" type="Line2D" parent="." index="15"]
 visible = false

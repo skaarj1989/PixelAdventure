@@ -16,14 +16,14 @@ position = Vector2( 272, 167 )
 
 [node name="Turtle" parent="." index="11" instance=ExtResource( 2 )]
 position = Vector2( 104, 128 )
+_facing = 1
 
 [node name="Turtle2" parent="." index="12" instance=ExtResource( 2 )]
 position = Vector2( 216, 80 )
+_facing = 1
 
 [node name="Turtle3" parent="." index="13" instance=ExtResource( 2 )]
 position = Vector2( 328, 128 )
-facing = -1
 
 [node name="Turtle4" parent="." index="14" instance=ExtResource( 2 )]
 position = Vector2( 424, 176 )
-facing = -1

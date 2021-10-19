@@ -1,43 +1,44 @@
 extends KinematicBody2D
 
+enum Facing {LEFT = -1, RIGHT = 1}
 enum {IDLE, RUN, ATTACK, HIT}
 const MAX_SIGHT_DISTANCE := 10 # In tiles
 const RELOAD_SPEED := 0.5 # In seconds
 const ROTATE_SPEED := 160.0 # Degrees/sec (on death)
 
-export(GameState.FACING) var facing := GameState.FACING.RIGHT
-export(float) var speed := 1.1
+export(Facing) var _facing = Facing.RIGHT
+export(float) var _speed = 1.1
 # (optional) Line2D that holds exactly 2 points
-export(NodePath) var patrol_path
+export(NodePath) var _patrol_path
 
-var state
-var can_shoot := true
-var continue_same_path := true # After attacking the player
-var velocity := Vector2.ZERO
-var patrol_points = [] # [0] = left, [1] = right
+var _state
+var _can_shoot := true
+var _continue_same_path := true # After attacking the player
+var _velocity := Vector2.ZERO
+var _patrol_points = [] # [0] = left, [1] = right
 
 
 func _ready() -> void:
-	if patrol_path:
+	if _patrol_path:
 		_setup_patrol_points()
 	_change_state(RUN)
 
 
 func _process(_delta: float) -> void:
-	if state != HIT:
-		if patrol_path and _is_patrol_point_reached():
-			continue_same_path = false # Turn around
+	if _state != HIT:
+		if _patrol_path and _is_patrol_point_reached():
+			_continue_same_path = false # Turn around
 			_change_state(IDLE)
 	else:
-		rotation_degrees += -facing * ROTATE_SPEED * _delta
+		rotation_degrees += -_facing * ROTATE_SPEED * _delta
 		if GameState.is_outside(position):
 			queue_free()
 
 
 func _physics_process(delta: float) -> void:
-	velocity.y += GameState.GRAVITY * delta
-	velocity = move_and_slide(velocity, Vector2.UP)
-	match state:
+	_velocity.y += GameState.GRAVITY * delta
+	_velocity = move_and_slide(_velocity, Vector2.UP)
+	match _state:
 		IDLE, RUN:
 			_check_perimeter()
 			continue
@@ -46,8 +47,8 @@ func _physics_process(delta: float) -> void:
 
 
 func take_damage(_from : Vector2 = Vector2.ZERO) -> bool:
-	velocity = Vector2(
-		-facing,
+	_velocity = Vector2(
+		-_facing,
 		-5.0
 	) * GameState.TILE_SIZE
 	_change_state(HIT)
@@ -56,21 +57,21 @@ func take_damage(_from : Vector2 = Vector2.ZERO) -> bool:
 
 
 func _setup_patrol_points() -> void:
-	patrol_points = Array(get_node(patrol_path).get_points())
-	assert(patrol_points.size() == 2)
-	patrol_points.sort() # Left to right
+	_patrol_points = Array(get_node(_patrol_path).get_points())
+	assert(_patrol_points.size() == 2)
+	_patrol_points.sort() # Left to right
 
 
 func _is_patrol_point_reached() -> bool:
 	# Remaps facing to: [0, 1] = [left, right]
-	var target = patrol_points[float(facing) * 0.5 + 0.5]
+	var target = _patrol_points[float(_facing) * 0.5 + 0.5]
 	var distance = (target - position).x
-	return distance < 0 if facing == GameState.FACING.RIGHT else distance > 0 
+	return distance < 0 if _facing == Facing.RIGHT else distance > 0 
 
 
 func _check_perimeter() -> void:
 	$RayCast2D.cast_to = Vector2(
-			facing * MAX_SIGHT_DISTANCE * GameState.TILE_SIZE,
+			_facing * MAX_SIGHT_DISTANCE * GameState.TILE_SIZE,
 			0.0
 	)
 	$RayCast2D.enabled = true
@@ -86,7 +87,7 @@ func _check_collisions() -> void:
 		# Don't have to check for collisions against player,
 		# this enemy is unlikely to step on the player
 		if collision.normal.x != 0:
-			continue_same_path = false # turn around
+			_continue_same_path = false # turn around
 			_change_state(IDLE)
 			return
 
@@ -94,29 +95,30 @@ func _check_collisions() -> void:
 func _shot() -> void:
 	var bullet = GameState.shot_bullet(
 			"Trunk",
-			position + Vector2(facing * 19, 4),
-			Vector2(facing, 0) * GameState.TILE_SIZE * 6
+			position + Vector2(_facing * 19, 4),
+			Vector2(_facing, 0) * GameState.TILE_SIZE * 6
 	)
 	get_parent().add_child(bullet)
 	$Shot.play()
-	can_shoot = false
+	_can_shoot = false
 
 
 func _change_state(new_state) -> void:
-	if new_state == state: return
+	if _state == new_state:
+		return
 	
 	match new_state:
 		IDLE:
 			$AnimationPlayer.play("idle")
-			velocity.x = 0
+			_velocity.x = 0
 			$Timer.start()
 		RUN:
 			$AnimationPlayer.play("run")
-			$Sprite.flip_h = facing == GameState.FACING.RIGHT
-			velocity.x = facing * speed * GameState.TILE_SIZE
+			$Sprite.flip_h = _facing == Facing.RIGHT
+			_velocity.x = _facing * _speed * GameState.TILE_SIZE
 		ATTACK:
 			$AnimationPlayer.play("attack")
-			velocity.x = 0
+			_velocity.x = 0
 			$Timer.stop()
 		HIT:
 			$AnimationPlayer.play("hit")
@@ -125,21 +127,21 @@ func _change_state(new_state) -> void:
 			$Timer.stop()
 			$Reload.stop()
 	
-	state = new_state
-
-
-func _on_Timer_timeout() -> void:
-	if not continue_same_path:
-		facing = -facing
-	_change_state(RUN)
+	_state = new_state
 
 
 func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 	if anim_name == "attack":
-		continue_same_path = true
+		_continue_same_path = true
 		_change_state(IDLE)
 		$Reload.start(RELOAD_SPEED)
 
 
+func _on_Timer_timeout() -> void:
+	if not _continue_same_path:
+		_facing = -_facing
+	_change_state(RUN)
+
+
 func _on_Reload_timeout() -> void:
-	can_shoot = true
+	_can_shoot = true

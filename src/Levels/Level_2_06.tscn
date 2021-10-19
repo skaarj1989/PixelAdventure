@@ -26,14 +26,14 @@ position = Vector2( 264, 88 )
 
 [node name="Bee" parent="." index="11" instance=ExtResource( 2 )]
 position = Vector2( 88, 120 )
-patrol_path = NodePath("../PatrolPath")
+_patrol_path = NodePath("../PatrolPath")
 
 [node name="PatrolPath" type="Path2D" parent="." index="12"]
 curve = SubResource( 1 )
 
 [node name="Bee2" parent="." index="13" instance=ExtResource( 2 )]
 position = Vector2( 320, 95 )
-patrol_path = NodePath("../PatrolPath2")
+_patrol_path = NodePath("../PatrolPath2")
 
 [node name="PatrolPath2" type="Path2D" parent="." index="14"]
 position = Vector2( -16, -16 )

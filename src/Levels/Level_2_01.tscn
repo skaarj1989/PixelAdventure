@@ -19,7 +19,7 @@ position = Vector2( 304, 240 )
 
 [node name="Mushroom2" parent="." index="12" instance=ExtResource( 2 )]
 position = Vector2( 160, 96 )
-patrol_path = NodePath("../PatrolPath2")
+_patrol_path = NodePath("../PatrolPath2")
 
 [node name="PatrolPath2" type="Line2D" parent="." index="13"]
 visible = false
@@ -28,7 +28,7 @@ width = 1.0
 
 [node name="Mushroom3" parent="." index="14" instance=ExtResource( 2 )]
 position = Vector2( 448, 128 )
-patrol_path = NodePath("../PatrolPath3")
+_patrol_path = NodePath("../PatrolPath3")
 
 [node name="PatrolPath3" type="Line2D" parent="." index="15"]
 visible = false

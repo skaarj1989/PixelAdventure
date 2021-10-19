@@ -22,26 +22,22 @@ position = Vector2( 56, 24 )
 
 [node name="Rino" parent="." index="11" instance=ExtResource( 2 )]
 position = Vector2( 448, 96 )
-facing = -1
-area_of_sight = NodePath("Area2D")
 
-[node name="Area2D" type="Area2D" parent="Rino" index="2"]
+[node name="AggroArea" type="Area2D" parent="Rino" index="2"]
 position = Vector2( 0, -10 )
 collision_layer = 0
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Rino/Area2D" index="0"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rino/AggroArea" index="0"]
 shape = SubResource( 1 )
 
 [node name="Rino2" parent="." index="12" instance=ExtResource( 2 )]
 position = Vector2( 414, 208 )
-facing = -1
-area_of_sight = NodePath("Area2D")
 
-[node name="Area2D" type="Area2D" parent="Rino2" index="2"]
+[node name="AggroArea" type="Area2D" parent="Rino2" index="2"]
 position = Vector2( 0, -10 )
 collision_layer = 0
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Rino2/Area2D" index="0"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rino2/AggroArea" index="0"]
 shape = SubResource( 2 )

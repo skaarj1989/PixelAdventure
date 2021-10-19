@@ -4,7 +4,7 @@ const TILE_SIZE := 32 # In pixels
 const GAME_AREA := Vector2(512, 256) # in pixels
 const GRAVITY := 1000
 
-enum FACING {LEFT = -1, RIGHT = 1}
+#enum FACING {LEFT = -1, RIGHT = 1}
 enum SURFACE_TYPE {DEFAULT, SAND, MUD, ICE}
 #enum FRUITS {APPLE, BANANAS, CHERRIES, KIWI, MELON, ORANGE, PINEAPPLE, STRAWBERRY}
 

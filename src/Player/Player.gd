@@ -4,10 +4,11 @@ extends KinematicBody2D
 signal hurt
 signal dead
 
+enum Facing {LEFT = -1, RIGHT = 1}
 const ACCELERATION := 0.5 # [0..1]
 export(float) var speed := 4.5 # Tiles/sec
 
-var facing = GameState.FACING.RIGHT
+var facing = Facing.RIGHT
 var velocity := Vector2.ZERO
 var snap := Vector2.ZERO
 var surface_type = GameState.SURFACE_TYPE.DEFAULT
@@ -39,7 +40,7 @@ func _process(_delta: float) -> void:
 	#$Label.text = GameState.SURFACE_TYPE.keys()[surface_type]
 	$Label.text = String(snap)
 
-	$Sprite.flip_h = facing == GameState.FACING.LEFT
+	$Sprite.flip_h = facing == Facing.LEFT
 	
 	if $StateMachine.state.name != "Hit":
 		input_direction_x = _get_input_direction()

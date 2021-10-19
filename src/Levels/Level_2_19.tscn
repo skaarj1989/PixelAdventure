@@ -25,15 +25,12 @@ position = Vector2( 432, 170 )
 
 [node name="Bat" parent="." index="11" instance=ExtResource( 2 )]
 position = Vector2( 416, 32 )
-facing = -1
 
 [node name="Bat2" parent="." index="12" instance=ExtResource( 2 )]
 position = Vector2( 176, 32 )
 
 [node name="Bat3" parent="." index="13" instance=ExtResource( 2 )]
 position = Vector2( 72, 32 )
-facing = -1
 
 [node name="Bat4" parent="." index="14" instance=ExtResource( 2 )]
 position = Vector2( 104, 176 )
-facing = -1

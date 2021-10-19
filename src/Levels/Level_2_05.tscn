@@ -25,31 +25,28 @@ position = Vector2( 449, 208 )
 
 [node name="Plant" parent="." index="11" instance=ExtResource( 2 )]
 position = Vector2( 456, 136 )
-facing = -1
-area_of_sight = NodePath("Area2D")
+_facing = -1
 
-[node name="Area2D" type="Area2D" parent="Plant" index="4"]
+[node name="AreaOfSight" type="Area2D" parent="Plant" index="4"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Plant/Area2D" index="0"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Plant/AreaOfSight" index="0"]
 position = Vector2( -60, 5 )
 shape = SubResource( 1 )
 
 [node name="Plant2" parent="." index="12" instance=ExtResource( 2 )]
 position = Vector2( 56, 72 )
-area_of_sight = NodePath("Area2D")
 
-[node name="Area2D" type="Area2D" parent="Plant2" index="4"]
+[node name="AreaOfSight" type="Area2D" parent="Plant2" index="4"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Plant2/Area2D" index="0"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Plant2/AreaOfSight" index="0"]
 position = Vector2( 100, 0 )
 shape = SubResource( 2 )
 
 [node name="Plant3" parent="." index="13" instance=ExtResource( 2 )]
 position = Vector2( 52, 216 )
-area_of_sight = NodePath("Area2D")
 
-[node name="Area2D" type="Area2D" parent="Plant3" index="4"]
+[node name="AreaOfSight" type="Area2D" parent="Plant3" index="4"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Plant3/Area2D" index="0"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Plant3/AreaOfSight" index="0"]
 position = Vector2( 100, -10 )
 shape = SubResource( 3 )

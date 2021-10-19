@@ -16,8 +16,7 @@ position = Vector2( 56, 24 )
 
 [node name="Ghost" parent="." index="11" instance=ExtResource( 2 )]
 position = Vector2( 80, 128 )
-facing = -1
-patrol_path = NodePath("../Line2D")
+_patrol_path = NodePath("../Line2D")
 
 [node name="Line2D" type="Line2D" parent="." index="12"]
 visible = false
@@ -26,12 +25,10 @@ width = 1.0
 
 [node name="Ghost2" parent="." index="13" instance=ExtResource( 2 )]
 position = Vector2( 152, 192 )
-facing = -1
 
 [node name="Ghost3" parent="." index="14" instance=ExtResource( 2 )]
 position = Vector2( 304, 96 )
-facing = -1
-patrol_path = NodePath("../Line2D3")
+_patrol_path = NodePath("../Line2D3")
 
 [node name="Line2D3" type="Line2D" parent="." index="15"]
 visible = false
@@ -40,8 +37,7 @@ width = 1.0
 
 [node name="Ghost4" parent="." index="16" instance=ExtResource( 2 )]
 position = Vector2( 448, 144 )
-facing = -1
-patrol_path = NodePath("../Line2D4")
+_patrol_path = NodePath("../Line2D4")
 
 [node name="Line2D4" type="Line2D" parent="." index="17"]
 visible = false

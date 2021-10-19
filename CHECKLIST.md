@@ -7,7 +7,7 @@
 - [x] FallingPlatforms
 - [x] Fan
 - [x] Fire
-- [ ] Platforms
+- [x] Platforms
 - [ ] RockHead
 - [x] Sand
 - [x] Mud
@@ -26,11 +26,11 @@
 - [x] Chicken
 - [x] Plant
 - [x] Bee
-- [ ] Snail
+- [x] Snail
 - [ ] Radish
 - [ ] Duck
 - [x] Ghost
-- [ ] Rocks
+- [x] Rocks
 - [ ] Chameleon
 - [x] Slime
 - [x] Rino

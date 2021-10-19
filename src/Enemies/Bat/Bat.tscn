@@ -106,59 +106,59 @@ atlas = ExtResource( 1 )
 region = Rect2( 276, 0, 46, 30 )
 
 [sub_resource type="AtlasTexture" id=26]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 6 )
 region = Rect2( 0, 0, 46, 30 )
 
 [sub_resource type="AtlasTexture" id=27]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 6 )
 region = Rect2( 46, 0, 46, 30 )
 
 [sub_resource type="AtlasTexture" id=28]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 6 )
 region = Rect2( 92, 0, 46, 30 )
 
 [sub_resource type="AtlasTexture" id=29]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 6 )
 region = Rect2( 138, 0, 46, 30 )
 
 [sub_resource type="AtlasTexture" id=30]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 6 )
 region = Rect2( 184, 0, 46, 30 )
 
 [sub_resource type="AtlasTexture" id=31]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 6 )
 region = Rect2( 230, 0, 46, 30 )
 
 [sub_resource type="AtlasTexture" id=32]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 6 )
 region = Rect2( 276, 0, 46, 30 )
 
 [sub_resource type="AtlasTexture" id=33]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 3 )
 region = Rect2( 0, 0, 46, 30 )
 
 [sub_resource type="AtlasTexture" id=34]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 3 )
 region = Rect2( 46, 0, 46, 30 )
 
 [sub_resource type="AtlasTexture" id=35]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 3 )
 region = Rect2( 92, 0, 46, 30 )
 
 [sub_resource type="AtlasTexture" id=36]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 3 )
 region = Rect2( 138, 0, 46, 30 )
 
 [sub_resource type="AtlasTexture" id=37]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 3 )
 region = Rect2( 184, 0, 46, 30 )
 
 [sub_resource type="AtlasTexture" id=38]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 3 )
 region = Rect2( 230, 0, 46, 30 )
 
 [sub_resource type="AtlasTexture" id=39]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 3 )
 region = Rect2( 276, 0, 46, 30 )
 
 [sub_resource type="SpriteFrames" id=40]
@@ -180,12 +180,12 @@ animations = [ {
 }, {
 "frames": [ SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ), SubResource( 32 ) ],
 "loop": false,
-"name": "ceiling_out",
+"name": "ceiling_in",
 "speed": 20.0
 }, {
 "frames": [ SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ), SubResource( 37 ), SubResource( 38 ), SubResource( 39 ) ],
 "loop": false,
-"name": "ceiling_in",
+"name": "ceiling_out",
 "speed": 20.0
 } ]
 

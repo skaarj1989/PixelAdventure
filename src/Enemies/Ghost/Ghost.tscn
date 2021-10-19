@@ -157,7 +157,7 @@ shape = SubResource( 1 )
 position = Vector2( 0, 1 )
 frames = SubResource( 25 )
 animation = "idle"
-frame = 2
+frame = 5
 playing = true
 
 [node name="Particles2D" type="Particles2D" parent="."]

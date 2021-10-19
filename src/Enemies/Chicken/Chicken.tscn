@@ -178,7 +178,7 @@ shape = SubResource( 2 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 35 )
 animation = "idle"
-frame = 9
+frame = 2
 playing = true
 
 [node name="Timer" type="Timer" parent="."]

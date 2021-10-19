@@ -1,37 +1,50 @@
 extends KinematicBody2D
 
+enum Facing {LEFT = -1, RIGHT = 1}
 enum {ARMED, DISARMED, HIT}
 const ROTATE_SPEED = 160 # Degrees/sec
 
-export(GameState.FACING) var facing := GameState.FACING.RIGHT
+export(Facing) var _facing = Facing.LEFT
 
-var state
-var velocity := Vector2.ZERO
+var _state
+var _velocity := Vector2.ZERO
 
 
-onready var rng = RandomNumberGenerator.new()
+onready var _rng = RandomNumberGenerator.new()
 
 func _ready() -> void:
-	$Sprite.flip_h = facing == GameState.FACING.RIGHT
-	change_state(ARMED)
-	start_thinking()
+	$Sprite.flip_h = _facing == Facing.RIGHT
+	_change_state(ARMED)
+	_start_thinking()
 
 
 func _process(_delta: float) -> void:
-	if state == HIT:
-		rotation_degrees += -facing * ROTATE_SPEED * _delta
+	if _state == HIT:
+		rotation_degrees += -_facing * ROTATE_SPEED * _delta
 		if GameState.is_outside(position):
 			queue_free()
 
 
 func _physics_process(_delta: float) -> void:
-	velocity.y += GameState.GRAVITY * _delta
-	velocity = move_and_slide(velocity, Vector2.UP)
-	if state != HIT:
-		check_collisions()
+	_velocity.y += GameState.GRAVITY * _delta
+	_velocity = move_and_slide(_velocity, Vector2.UP)
+	if _state != HIT:
+		_check_collisions()
 
 
-func check_collisions() -> void:
+func take_damage(_from: Vector2 = Vector2.ZERO) -> bool:
+	if _state == DISARMED:
+		_velocity = Vector2(
+			-_facing,
+			-5.0
+		) * GameState.TILE_SIZE
+		_change_state(HIT)
+		GameState.camera.add_trauma(0.5)
+		return true
+	return false
+
+
+func _check_collisions() -> void:
 	for idx in range(get_slide_count()):
 		var collision = get_slide_collision(idx)
 		var collider = collision.collider
@@ -39,8 +52,8 @@ func check_collisions() -> void:
 			collider.take_damage()
 
 
-func change_state(new_state) -> void:
-	if state == new_state:
+func _change_state(new_state) -> void:
+	if _state == new_state:
 		return
 	
 	match new_state:
@@ -53,34 +66,22 @@ func change_state(new_state) -> void:
 			$CollisionShape2D.disabled = true
 			$Timer.stop()
 
-	state = new_state
+	_state = new_state
 
 
-func take_damage(_from: Vector2 = Vector2.ZERO) -> bool:
-	if state == DISARMED:
-		velocity = Vector2(
-			-facing,
-			-5.0
-		) * GameState.TILE_SIZE
-		change_state(HIT)
-		GameState.camera.add_trauma(0.5)
-		return true
-	return false
+func _start_thinking() -> void:
+	_rng.randomize()
+	$Timer.start(_rng.randf_range(2, 3))
 
 
-func start_thinking() -> void:
-	rng.randomize()
-	$Timer.start(rng.randf_range(2, 3))
-
-
-func _on_Timer_timeout() -> void:
-	change_state(ARMED if state == DISARMED else DISARMED)
-	start_thinking()
-
-
-func _on_AnimationPlayer_animation_finished(anim_name) -> void:
+func _on_AnimationPlayer_animation_finished(anim_name: String) -> void:
 	match anim_name:
 		"spikes_in":
 			$AnimationPlayer.play("idle_1")
 		"spikes_out":
 			$AnimationPlayer.play("idle_2")
+
+
+func _on_Timer_timeout() -> void:
+	_change_state(ARMED if _state == DISARMED else DISARMED)
+	_start_thinking()
