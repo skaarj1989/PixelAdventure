@@ -1,0 +1,93 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://src/UI/OnScreenControls.gd" type="Script" id=1]
+[ext_resource path="res://assets/UI/jump.png" type="Texture" id=2]
+[ext_resource path="res://assets/UI/move_right.png" type="Texture" id=3]
+[ext_resource path="res://assets/UI/transparent_descent.png" type="Texture" id=4]
+[ext_resource path="res://assets/UI/transparent_jump.png" type="Texture" id=5]
+[ext_resource path="res://assets/UI/descent.png" type="Texture" id=6]
+[ext_resource path="res://assets/UI/move_left.png" type="Texture" id=7]
+[ext_resource path="res://assets/UI/transparent_move_right.png" type="Texture" id=8]
+[ext_resource path="res://assets/UI/translucent_move_left.png" type="Texture" id=9]
+
+[node name="OnScreenControls" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LeftSide" type="HBoxContainer" parent="."]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = -44.0
+margin_right = 169.0
+margin_bottom = 36.0
+rect_scale = Vector2( 0.5, 0.5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MoveLeft" type="TextureButton" parent="LeftSide"]
+margin_right = 80.0
+margin_bottom = 80.0
+action_mode = 0
+texture_normal = ExtResource( 9 )
+texture_pressed = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MoveRight" type="TextureButton" parent="LeftSide"]
+margin_left = 84.0
+margin_right = 164.0
+margin_bottom = 80.0
+action_mode = 0
+texture_normal = ExtResource( 8 )
+texture_pressed = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RightSide" type="VBoxContainer" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -47.0
+margin_top = -89.0
+margin_right = 33.0
+margin_bottom = 83.0
+rect_scale = Vector2( 0.5, 0.5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Jump" type="TextureButton" parent="RightSide"]
+margin_right = 80.0
+margin_bottom = 80.0
+texture_normal = ExtResource( 5 )
+texture_pressed = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Descent" type="TextureButton" parent="RightSide"]
+margin_top = 84.0
+margin_right = 80.0
+margin_bottom = 164.0
+action_mode = 0
+texture_normal = ExtResource( 4 )
+texture_pressed = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="button_down" from="LeftSide/MoveLeft" to="." method="_on_MoveLeft_button_down"]
+[connection signal="button_up" from="LeftSide/MoveLeft" to="." method="_on_MoveLeft_button_up"]
+[connection signal="button_down" from="LeftSide/MoveRight" to="." method="_on_MoveRight_button_down"]
+[connection signal="button_up" from="LeftSide/MoveRight" to="." method="_on_MoveRight_button_up"]
+[connection signal="pressed" from="RightSide/Jump" to="." method="_on_Jump_pressed"]
+[connection signal="pressed" from="RightSide/Descent" to="." method="_on_Descent_pressed"]

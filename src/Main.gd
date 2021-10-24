@@ -33,6 +33,12 @@ func _ready() -> void:
 	open_level(initial_chapter, initial_level)
 
 
+func _notification(what) -> void:
+	print(what)
+	if what == MainLoop.NOTIFICATION_WM_FOCUS_OUT:
+		_pause_menu.call("open")
+
+
 func _unhandled_input(event) -> void:
 	if event.is_action_pressed("pause"):
 		var tree = get_tree()

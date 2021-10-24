@@ -5,6 +5,11 @@ signal next_level
 signal restart_level
 
 
+func _ready() -> void:
+	if OS.has_touchscreen_ui_hint():
+		$OnScreenControls.show()
+
+
 func _on_PrevLevelButton_pressed() -> void:
 	emit_signal("prev_level")
 
