@@ -1,45 +1,53 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://src/UI/HUD.gd" type="Script" id=1]
 [ext_resource path="res://assets/Menu/Buttons/Restart.png" type="Texture" id=2]
 [ext_resource path="res://assets/Menu/Buttons/Next.png" type="Texture" id=3]
 [ext_resource path="res://assets/Menu/Buttons/Previous.png" type="Texture" id=4]
+[ext_resource path="res://src/UI/OnScreenControls.tscn" type="PackedScene" id=6]
 
 [node name="HUD" type="MarginContainer"]
 anchor_right = 1.0
-margin_bottom = 22.0
+anchor_bottom = 1.0
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="Toolbar" type="HBoxContainer" parent="."]
 margin_right = 512.0
-margin_bottom = 22.0
+margin_bottom = 264.0
 custom_constants/separation = 0
 alignment = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="PrevLevelButton" type="TextureButton" parent="HBoxContainer"]
+[node name="PrevLevelButton" type="TextureButton" parent="Toolbar"]
 margin_left = 449.0
 margin_right = 470.0
-margin_bottom = 22.0
+margin_bottom = 264.0
 texture_normal = ExtResource( 4 )
 
-[node name="NextLevelButton" type="TextureButton" parent="HBoxContainer"]
+[node name="NextLevelButton" type="TextureButton" parent="Toolbar"]
 margin_left = 470.0
 margin_right = 491.0
-margin_bottom = 22.0
+margin_bottom = 264.0
 texture_normal = ExtResource( 3 )
 
-[node name="RestartLevelButton" type="TextureButton" parent="HBoxContainer"]
+[node name="RestartLevelButton" type="TextureButton" parent="Toolbar"]
 margin_left = 491.0
 margin_right = 512.0
-margin_bottom = 22.0
+margin_bottom = 264.0
 texture_normal = ExtResource( 2 )
 
-[connection signal="pressed" from="HBoxContainer/PrevLevelButton" to="." method="_on_PrevLevelButton_pressed"]
-[connection signal="pressed" from="HBoxContainer/NextLevelButton" to="." method="_on_NextLevelButton_pressed"]
-[connection signal="pressed" from="HBoxContainer/RestartLevelButton" to="." method="_on_RestartLevelButton_pressed"]
+[node name="OnScreenControls" parent="." instance=ExtResource( 6 )]
+visible = false
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 512.0
+margin_bottom = 264.0
+
+[connection signal="pressed" from="Toolbar/PrevLevelButton" to="." method="_on_PrevLevelButton_pressed"]
+[connection signal="pressed" from="Toolbar/NextLevelButton" to="." method="_on_NextLevelButton_pressed"]
+[connection signal="pressed" from="Toolbar/RestartLevelButton" to="." method="_on_RestartLevelButton_pressed"]
