@@ -9,6 +9,7 @@
 [node name="HUD" type="MarginContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+focus_mode = 2
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -27,18 +28,23 @@ __meta__ = {
 margin_left = 449.0
 margin_right = 470.0
 margin_bottom = 264.0
+shortcut_in_tooltip = false
 texture_normal = ExtResource( 4 )
 
 [node name="NextLevelButton" type="TextureButton" parent="Toolbar"]
 margin_left = 470.0
 margin_right = 491.0
 margin_bottom = 264.0
+focus_mode = 1
+shortcut_in_tooltip = false
 texture_normal = ExtResource( 3 )
 
 [node name="RestartLevelButton" type="TextureButton" parent="Toolbar"]
 margin_left = 491.0
 margin_right = 512.0
 margin_bottom = 264.0
+focus_mode = 1
+shortcut_in_tooltip = false
 texture_normal = ExtResource( 2 )
 
 [node name="OnScreenControls" parent="." instance=ExtResource( 6 )]
