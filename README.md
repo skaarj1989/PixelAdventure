@@ -8,8 +8,7 @@
 
 ## Acknowledgments
 
-- Graphic assets by: htt
-- ps://pixelfrog-assets.itch.io/
+- Graphic assets by: https://pixelfrog-assets.itch.io/
 - Font: https://www.kenney.nl/assets/kenney-fonts
 - Music: https://freesound.org/people/RHumphries/packs/117/
 - SFX:
